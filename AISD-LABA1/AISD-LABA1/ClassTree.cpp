@@ -11,7 +11,8 @@ ClassTree::ClassTree(int data)
 
 ClassTree::ClassTree(const ClassTree& t)
 {
-	root = t.root;
+	root = new Tree(-999999, NULL, NULL);
+	CopyTree(t.root, root);
 }
 
 ClassTree::~ClassTree()
@@ -19,7 +20,21 @@ ClassTree::~ClassTree()
 	delete root;
 }
 
-void ClassTree:: print(Tree* root = NULL, int level = 3)
+void ClassTree:: CopyTree(Tree* t, Tree* copy) const
+{
+	if (t == NULL)
+	{
+		copy = NULL;
+		return;
+	}
+	copy->data = t->data;
+	CopyTree(t->left, (copy->left));
+	CopyTree(t->right, (copy->right));
+}
+
+Tree* ClassTree::GetRoot() const { return this->root; }
+
+void ClassTree:: print(Tree* root = NULL, int level = 3) const
 {
 	if (root)
 	{
@@ -35,29 +50,30 @@ void ClassTree:: print(Tree* root = NULL, int level = 3)
 
 bool ClassTree::insert(int key)
 {
-	while (root)
+	Tree* tmp = root;
+	while (tmp)
 	{
-		if (key < root->data)
+		if (key < tmp->data)
 		{
-			if (root->left == NULL)
+			if (tmp->left == NULL)
 			{
-				root->left = new Tree(key, NULL, NULL);
+				tmp->left = new Tree(key, NULL, NULL);
 				return true;
 			}
 			else
-				root = root->left;
+				tmp = tmp->left;
 		}
-		if (key > root->data)
+		if (key > tmp->data)
 		{
-			if (root->right == NULL)
+			if (tmp->right == NULL)
 			{
-				root->right = new Tree(key, NULL, NULL);
+				tmp->right = new Tree(key, NULL, NULL);
 				return true;
 			}
 			else
-				root = root->right;
+				tmp = tmp->right;
 		}
-		if (key == root->data)
+		if (key == tmp->data)
 		{
 			cout << "The value is exist";
 			return false;
@@ -65,35 +81,37 @@ bool ClassTree::insert(int key)
 	}
 }
 
-bool ClassTree::contains(int key)
+bool ClassTree::contains(int key) const
 {
-	while (root)
+	Tree* tmp = root;
+	while (tmp)
 	{
-		if (root->data == key) return true;
-		if (root->data < key) root = root->right;
-		if (root->data > key) root = root->left;
+		if (tmp->data == key) return true;
+		else if (tmp->data < key) tmp = tmp->right;
+		else if (tmp->data > key) tmp = tmp->left;
+		else return false;
 	}
 	return false;
 }
 
-Tree* ClassTree::Poisk(int key, Tree* root = NULL)
+Tree* ClassTree::Poisk(int key, Tree* root = NULL) const
 {
 	while (root)
 	{
 		if (root->data == key) return root;
-		if (root->data < key) root = root->right;
-		if (root->data > key) root = root->left;
+		else if (root->data < key) root = root->right;
+		else if (root->data > key) root = root->left;
 	}
 	return NULL;
 }
 
-Tree* ClassTree::PrevPoisk(int key, Tree* root = NULL)
+Tree* ClassTree::PrevPoisk(int key, Tree* root = NULL) const
 {
 	while (root)
 	{
 		if (root->left != NULL && (root->left)->data == key) return root;
-		if (root->right != NULL && (root->right)->data == key) return root;
-		if (root->data < key) root = root->right;
+		else if (root->right != NULL && (root->right)->data == key) return root;
+		else if (root->data < key) root = root->right;
 		else if (root->data > key) root = root->left;
 	}
 	return NULL;
@@ -146,16 +164,16 @@ bool ClassTree::erase(int key, Tree* root = NULL)
 	}
 
 	Tree* prev_tmp = PrevPoisk(key, root);
-	cout << "Prev data:" << prev_tmp->data;
+	cout << "Prev data:" << prev_tmp->data << endl;
 
 	if (tmp->left == NULL && tmp->right == NULL)
 	{
-		if ((prev_tmp->left)->data == key)
+		if (prev_tmp->left != NULL && (prev_tmp->left)->data == key)
 		{
 			prev_tmp->left = NULL;
 			delete tmp;
 		}
-		if ((prev_tmp->right)->data == key)
+		if (prev_tmp->right != NULL && (prev_tmp->right)->data == key)
 		{
 			prev_tmp->right = NULL;
 			delete tmp;

@@ -19,13 +19,15 @@ class ClassTree
 private:
 	Tree* root;
 public:
-	ClassTree(int data);
+	ClassTree(int data = -999999);
 	ClassTree(const ClassTree& tree);
 	~ClassTree();
-	void print(Tree* root, int level);
+	void CopyTree(Tree* p, Tree* copy) const;
+	Tree* GetRoot() const;
+	void print(Tree* root, int level) const;
 	bool insert(int key);
-	bool contains(int key);
-	Tree* Poisk(int key, Tree* root);
-	Tree* PrevPoisk(int key, Tree* root);
+	bool contains(int key) const;
+	Tree* Poisk(int key, Tree* root) const;
+	Tree* PrevPoisk(int key, Tree* root) const;
 	bool erase(int key, Tree* root);
 };
