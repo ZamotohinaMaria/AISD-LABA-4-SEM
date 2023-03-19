@@ -12,7 +12,8 @@ ClassTree::ClassTree(int data)
 ClassTree::ClassTree(const ClassTree& t)
 {
 	root = new Tree(-999999, NULL, NULL);
-	CopyTree(t.root, root);
+	root = t.root;
+	//CopyTree(t.root, root);
 }
 
 ClassTree::~ClassTree()

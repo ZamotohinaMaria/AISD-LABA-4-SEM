@@ -63,8 +63,6 @@ ClassTree CreateTree()
 			x = InputValue();
 		}
 	}
-	//(*array[i]).print((*array[i]).GetRoot(), Treelevel);
-	system("pause");
 	return t;
 }
 
@@ -76,12 +74,14 @@ ClassTree* InsertInArray(ClassTree* array, int a_cur, int* a_size)
 
 	for (int i = 0; i < *a_size + 1; i++)
 	{
-		if (i <=  a_cur)
+		if (i <= a_cur)
 			new_array[i] = array[i];
+		else if (i == a_cur + 1)
+			new_array[i] = CreateTree();
 		else if (i > a_cur + 1)
 			new_array[i] = array[i - 1];
 	}
-
+	(array[a_cur + 1]).print((array[a_cur + 1]).GetRoot(), Treelevel);
 	*a_size += 1;
 	return new_array;
 }
@@ -130,63 +130,62 @@ int menu1()
 
 int main()
 {
-	int a_size = 0; //размер динамического массива
-	int a_cur = 0; //текущий элемент
-	ClassTree* array = new ClassTree[a_size];
+	//int a_size = 0; //размер динамического массива
+	//int a_cur = 0; //текущий элемент
+	//ClassTree* array = new ClassTree[a_size];
 
 
-	while (true)
-	{
-		system("cls");
-		cout << "Hello, this is the laba 1 by Zamotohina Maria" << endl;
+	//while (true)
+	//{
+	//	system("cls");
+	//	cout << "Hello, this is the laba 1 by Zamotohina Maria" << endl;
 
-		if (a_size > 0)
-		{
-			PrintTree(array[a_cur]);
-			cout << "\nnumber of this tree = " << a_cur + 1 << endl;
-			cout << "number of all trees = " << a_size << endl;
-		}
-		else
-		{
-			system("cls");
-			printf("List of trees is empty\n");
-			a_size = 0;
-			a_cur = -1;
-		}
-		int m1 = menu1();
-		if (m1 == 27) break;
+	//	if (a_size > 0)
+	//	{
+	//		PrintTree(array[a_cur]);
+	//		cout << "\nnumber of this tree = " << a_cur + 1 << endl;
+	//		cout << "number of all trees = " << a_size << endl;
+	//	}
+	//	else
+	//	{
+	//		system("cls");
+	//		printf("List of trees is empty\n");
+	//		a_size = 0;
+	//		a_cur = -1;
+	//	}
 
-		switch (m1)
-		{
-		case 75:
-			if (a_cur > 0) a_cur--;
-			break;
-		case 77:
-			if (a_cur < a_size - 1) a_cur++;
-			break;
-		case 49:
-			array = InsertInArray(array, a_cur, &a_size);
-			a_cur += 1;
-			*(array + a_cur) = CreateTree();
-			
-			//cout << array[0].GetRoot()->data;
-			//array[0].print(array[0].GetRoot(), Treelevel);
-			system("pause");
-			break;
-		case 50:
-			system("cls");
-			if (a_size == 0) cout << "Trees is not exist";
-			DeleteTree(&array, a_cur, &a_size);
-			if (a_cur == a_size) a_cur -= 1;
-			system("pause");
-			break;
-		}
-	}
-	/*cout << "Input root value: ";
+	//	int m1 = menu1();
+	//	if (m1 == 27) break;
+	//	switch (m1)
+	//	{
+	//	case 75:
+	//		if (a_cur > 0) a_cur--;
+	//		break;
+	//	case 77:
+	//		if (a_cur < a_size - 1) a_cur++;
+	//		break;
+	//	case 49:
+	//		array = InsertInArray(array, a_cur, &a_size);
+	//		a_cur += 1;
+	//		
+	//		//cout << array[0].GetRoot()->data;
+	//		//array[0].print(array[0].GetRoot(), Treelevel);
+	//		system("pause");
+	//		break;
+	//	case 50:
+	//		system("cls");
+	//		if (a_size == 0) cout << "Trees is not exist";
+	//		DeleteTree(&array, a_cur, &a_size);
+	//		if (a_cur == a_size) a_cur -= 1;
+	//		system("pause");
+	//		break;
+	//	}
+	//}
+	
 	int x;
-	x = InputValue();
 
-	ClassTree t(x);
+	ClassTree t;
+	t = CreateTree();
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -206,7 +205,7 @@ int main()
 	x = InputValue();
 	t.erase(x, t.GetRoot());
 	t.print(t.GetRoot(), Treelevel);
-	cout << "--------------------------" << endl;*/
+	cout << "--------------------------" << endl;
 
 	return 0;
 }
