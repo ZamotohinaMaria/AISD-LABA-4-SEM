@@ -43,46 +43,47 @@ void PrintTree(const ClassTree& t)
 //	(*a_max) += 10;
 //}
 
+ClassTree CreateTree()
+{
+	cout << "Input root value: ";
+	int x;
+	x = InputValue();
+	ClassTree t(x);
+
+	cout << "Input number of elements in the tree: ";
+	int n;
+	cin >> n;
+	for (int i = 0; i < n - 1; i++)
+	{
+		cout << "Input new value " << i + 1 << ":" << endl;
+		x = InputValue();
+		while (t.insert(x) == false)
+		{
+			cout << "This value is exist. Please, input new value" << endl;
+			x = InputValue();
+		}
+	}
+	//(*array[i]).print((*array[i]).GetRoot(), Treelevel);
+	system("pause");
+	return t;
+}
+
 //после текущего элемента
-void InsertInArray(ClassTree** array, int* a_cur, int* a_size)
+ClassTree* InsertInArray(ClassTree* array, int a_cur, int* a_size)
 {
 	system("cls");
 	ClassTree* new_array = new ClassTree[*a_size + 1];
 
 	for (int i = 0; i < *a_size + 1; i++)
 	{
-		if (i <=  *a_cur)
-			new_array[i] = *array[i];
-		else if (i == *a_cur + 1)
-		{
-			cout << "Input root value: ";
-			int x;
-			x = InputValue();
-			ClassTree t(x);
-
-			cout << "Input number of elements in the tree: ";
-			int n;
-			cin >> n;
-			for (int i = 0; i < n - 1; i++)
-			{
-				cout << "Input new value " << i + 1 << ":" << endl;
-				x = InputValue();
-				while (t.insert(x) == false)
-				{
-					cout << "This value is exist. Please, input new value" << endl;
-					x = InputValue();
-				}
-			}
-			*array[i] = t;
-			//(*array[i]).print((*array[i]).GetRoot(), Treelevel);
-			system("pause");
-		}
-		else if (i > *a_cur + 1)
-			new_array[i] = *array[i - 1];
+		if (i <=  a_cur)
+			new_array[i] = array[i];
+		else if (i > a_cur + 1)
+			new_array[i] = array[i - 1];
 	}
 
-	*array = new_array;
 	*a_size += 1;
+	return new_array;
 }
 
 void DeleteTree(ClassTree** array, int a_cur, int* a_size)
@@ -164,10 +165,12 @@ int main()
 			if (a_cur < a_size - 1) a_cur++;
 			break;
 		case 49:
-			InsertInArray(&array, &a_cur, &a_size);
-			cout << array[0].GetRoot()->data;
-			array[0].print(array[0].GetRoot(), Treelevel);
+			array = InsertInArray(array, a_cur, &a_size);
 			a_cur += 1;
+			*(array + a_cur) = CreateTree();
+			
+			//cout << array[0].GetRoot()->data;
+			//array[0].print(array[0].GetRoot(), Treelevel);
 			system("pause");
 			break;
 		case 50:
