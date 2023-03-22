@@ -18,7 +18,15 @@ ClassTree::ClassTree(const ClassTree& t)
 
 ClassTree::~ClassTree()
 {
-	delete root;
+	Delete(root);
+}
+
+void ClassTree:: Delete(Tree* t)
+{
+	if (t->left != NULL)   Delete(t->left);
+	if (t->right != NULL)  Delete(t->right);
+	delete t;
+	t = NULL;
 }
 
 ClassTree ClassTree:: operator=(const ClassTree& t)

@@ -85,14 +85,6 @@ ClassTree* InsertInArray(ClassTree* array, int a_cur, int* a_size)
 	return new_array;
 }
 
-void Delete(Tree* t)
-{
-	if (t->left != NULL)   Delete(t->left);
-	if (t ->right != NULL)  Delete(t->right);
-	delete t;
-	t = NULL;
-}
-
 ClassTree* DeleteTree(ClassTree* array, int a_cur, int* a_size)
 {
 	ClassTree* new_array = new ClassTree[*a_size - 1];
@@ -109,7 +101,7 @@ ClassTree* DeleteTree(ClassTree* array, int a_cur, int* a_size)
 				cout << "===============" << endl;
 				array[i].print(array[i].GetRoot(), Treelevel);
 			}*/
-			Delete(array[i].GetRoot());
+			array[i].Delete(array[i].GetRoot());
 		}
 		else  if (i >= a_cur)
 			new_array[i - 1] = array[i];
@@ -170,7 +162,7 @@ void Research(int k)
 		average_time += (double(end - start)) / (double(CLOCKS_PER_SEC));
 		//cout << "average time = " <<average_time;
 
-		if (i != 99) Delete(t.GetRoot());
+		if (i != 99) t.Delete(t.GetRoot());
 	}
 	//t.print(t.GetRoot(), Treelevel);
 	average_time /= 100;
@@ -201,7 +193,6 @@ void Research(int k)
 		average_time += (double(end - start)) / (double(CLOCKS_PER_SEC));
 		//if (k == 100000) cout << "average time = " << average_time;
 	}
-	cout << "prosto";
 	average_time /= 100;
 	cout << endl << "Time of insert random number in the tree of " << k << " elements = " << average_time << endl;
 
@@ -219,7 +210,7 @@ void Research(int k)
 	average_time /= 100;
 	cout << endl << "Time of deleting random number in the tree of " << k << " elements = " << average_time << endl;
 
-	Delete(tree->GetRoot());
+	t.Delete(tree->GetRoot());
 }
 
 int main()
