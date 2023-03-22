@@ -32,10 +32,8 @@ Tree* ClassTree:: CopyTree(Tree* copy, Tree* t) const
 {
 	if (copy == NULL)
 		t = NULL;
-	//проход, пока исходное дерево не достигло конца
 	if (copy != NULL)
 	{
-		//создание нового элемента дерева
 		t = new Tree(copy->data, NULL, NULL);
 		if (copy->left != NULL)
 		{
@@ -52,23 +50,6 @@ Tree* ClassTree:: CopyTree(Tree* copy, Tree* t) const
 			t->right = NULL;
 	}
 	return t;
-
-	/*if (t == NULL)
-	{
-		copy = NULL;
-		return;
-	}
-	copy->data = t->data;
-	if (t->left != NULL)
-	{
-		copy = copy->left;
-		CopyTree(t->left, (copy->left));
-	}
-	if (t->right != NULL)
-	{
-		copy = copy->right;
-		CopyTree(t->right, (copy->right));
-	}*/
 }
 
 Tree* ClassTree::GetRoot() const { return this->root; }
@@ -204,7 +185,7 @@ bool ClassTree::erase(int key, Tree* root = NULL)
 	}
 
 	Tree* prev_tmp = PrevPoisk(key, root);
-	cout << "Prev data:" << prev_tmp->data << endl;
+	//cout << "Prev data:" << prev_tmp->data << endl;
 
 	if (tmp->left == NULL && tmp->right == NULL)
 	{

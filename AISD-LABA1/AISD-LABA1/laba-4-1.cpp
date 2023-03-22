@@ -2,10 +2,17 @@
 #include "ClassTree.h"
 #include <stdio.h>
 #include <conio.h>
+#include <time.h>
 
 #define Treelevel 3
 
 using namespace std;
+
+size_t lcg() {
+	static size_t x = 0;
+	x = (1021 * x + 24631) % 116640;
+	return x;
+}
 
 int InputValue()
 {
@@ -32,27 +39,19 @@ void PrintTree(const ClassTree& t)
 	t.print(t.GetRoot(), Treelevel);
 }
 
-//void IncreaseArray (ClassTree** array, int* a_max)
-//{
-//	ClassTree* new_array = new ClassTree(*(a_max) + 10);
-//	
-//	for (int i = 0; i < *a_max; i++)
-//		new_array[i] = (*array)[i];
-//	delete[](*array);
-//	(*array) = new_array;
-//	(*a_max) += 10;
-//}
-
 ClassTree CreateTree()
 {
 	cout << "Input root value: ";
-	int x;
-	x = InputValue();
+	int x = InputValue();
 	ClassTree t(x);
 
 	cout << "Input number of elements in the tree: ";
-	int n;
-	cin >> n;
+	int n = InputValue();
+	while (n <= 0)
+	{
+		cout << "Input correct value (n > 0)" << endl;
+		n = InputValue();
+	}
 	for (int i = 0; i < n - 1; i++)
 	{
 		cout << "Input new value " << i + 1 << ":" << endl;
@@ -124,6 +123,7 @@ int menu1()
 	cout << endl << "This is main menu" << endl;
 	cout << "Press 1 to create new tree" << endl;
 	cout << "Press 2 to delete tree on the screen" << endl;
+	cout << "Press 3 to find average times" << endl;
 
 	cout << "Navigation:" << endl;
 	cout << "\tNext tree ->" << endl; //77
@@ -132,8 +132,94 @@ int menu1()
 	while (true)
 	{
 		int key = getkey();
-		if ((key == 49) || (key == 50) || (key == 27) || (key == 77) || (key == 75)) return key;
+		if ((key == 49) || (key == 50) || (key == 51) || (key == 27) || (key == 77) || (key == 75)) return key;
 	}
+}
+
+int menu2()
+{
+	cout << "Press 1 to find average time for 1000 elements" << endl;
+	cout << "Press 2 to find average time for 10000 elements" << endl;
+	cout << "Press 3 to find average time for 100000 elements" << endl;
+	cout << "Press Esc to return to the main menu" << endl;
+
+	while (true)
+	{
+		int key = getkey();
+		if ((key == 49) || (key == 50) || (key == 51) || (key == 27) || (key == 77) || (key == 75)) return key;
+	}
+}
+
+void Research(int k)
+{
+	ClassTree* tree, t;
+	clock_t start, end;
+	double average_time = 0;
+	size_t x;
+
+	average_time = 0;
+	for (int i = 0; i < 100; i += 1)
+	{
+		tree = new ClassTree(int(lcg()));
+		t = *tree;
+
+		start = clock();
+		for (int j = 0; j < k; j++)
+			t.insert(lcg());
+		end = clock();
+		average_time += (double(end - start)) / (double(CLOCKS_PER_SEC));
+		//cout << "average time = " <<average_time;
+
+		if (i != 99) Delete(t.GetRoot());
+	}
+	//t.print(t.GetRoot(), Treelevel);
+	average_time /= 100;
+	cout << endl << "Time of filling tree by " << k << " elements = " << average_time << endl;
+
+	average_time = 0;
+	for (int i = 0; i < 1000; i++)
+	{
+		x = lcg();
+		while (t.contains(x) == false) x = lcg();
+		start = clock();
+		t.Poisk(x, t.GetRoot());
+		end = clock();
+		average_time += (double(end - start)) / (double(CLOCKS_PER_SEC));
+		//cout << "average time = " << average_time;
+	}
+	average_time /= 100;
+	cout << endl << "Time of find random number in the tree of " << k << " elements = " << average_time << endl;
+
+	average_time = 0;
+	for (int i = 0; i < 1000; i++)
+	{
+		x = lcg();
+		while (t.contains(x) == true) x = lcg();
+		start = clock();
+		t.insert(x);
+		end = clock();
+		average_time += (double(end - start)) / (double(CLOCKS_PER_SEC));
+		//if (k == 100000) cout << "average time = " << average_time;
+	}
+	cout << "prosto";
+	average_time /= 100;
+	cout << endl << "Time of insert random number in the tree of " << k << " elements = " << average_time << endl;
+
+	average_time = 0;
+	for (int i = 0; i < 1000; i++)
+	{
+		x = lcg();
+		while (t.contains(x) == false) x = lcg();
+		start = clock();
+		t.erase(x, t.GetRoot());
+		end = clock();
+		average_time += (double(end - start)) / (double(CLOCKS_PER_SEC));
+		//cout << "average time = " << average_time;
+	}
+	average_time /= 100;
+	cout << endl << "Time of deleting random number in the tree of " << k << " elements = " << average_time << endl;
+
+	Delete(tree->GetRoot());
 }
 
 int main()
@@ -186,6 +272,27 @@ int main()
 				if (a_cur == a_size) a_cur -= 1;
 			}
 			system("pause");
+			break;
+		case 51:
+			while (true)
+			{
+				system("cls");
+				int m2 = menu2();
+				if (m2 == 27) break;
+				switch (m2)
+				{
+				case 49:
+					Research(1000);
+					break;
+				case 50:
+					Research(10000);
+					break;
+				case 51:
+					Research(100000);
+					break;
+				}
+				system("pause");
+			}
 			break;
 		}
 	}
