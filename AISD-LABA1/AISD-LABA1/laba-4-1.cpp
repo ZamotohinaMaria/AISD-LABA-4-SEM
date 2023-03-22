@@ -81,34 +81,42 @@ ClassTree* InsertInArray(ClassTree* array, int a_cur, int* a_size)
 		else if (i > a_cur + 1)
 			new_array[i] = array[i - 1];
 	}
-	(array[a_cur + 1]).print((array[a_cur + 1]).GetRoot(), Treelevel);
+	//(array[a_cur + 1]).print((array[a_cur + 1]).GetRoot(), Treelevel);
 	*a_size += 1;
 	return new_array;
 }
 
-void DeleteTree(ClassTree** array, int a_cur, int* a_size)
+void Delete(Tree* t)
+{
+	if (t->left != NULL)   Delete(t->left);
+	if (t ->right != NULL)  Delete(t->right);
+	delete t;
+	t = NULL;
+}
+
+ClassTree* DeleteTree(ClassTree* array, int a_cur, int* a_size)
 {
 	ClassTree* new_array = new ClassTree[*a_size - 1];
 
 	for (int i = 0; i < *a_size; i++)
 	{
 		if (i < a_cur)
-			new_array[i] = *array[i];
+			new_array[i] = array[i];
 		else if (i == a_cur)
 		{
-			ClassTree tmp = *array[i];
-			while (tmp.GetRoot())
+			/*while (array[i].GetRoot())
 			{
-				tmp.erase((tmp.GetRoot())->data, tmp.GetRoot());
-			}
-			delete &tmp;
+				array[i].erase((array[i].GetRoot())->data, array[i].GetRoot());
+				cout << "===============" << endl;
+				array[i].print(array[i].GetRoot(), Treelevel);
+			}*/
+			Delete(array[i].GetRoot());
 		}
 		else  if (i >= a_cur)
-			new_array[i] = *array[i + 1];
+			new_array[i - 1] = array[i];
 	}
-
-	*array = new_array;
 	*a_size -= 1;
+	return new_array;
 }
 
 int menu1()
@@ -130,73 +138,68 @@ int menu1()
 
 int main()
 {
-	//int a_size = 0; //размер динамического массива
-	//int a_cur = 0; //текущий элемент
-	//ClassTree* array = new ClassTree[a_size];
+	int a_size = 0; //размер динамического массива
+	int a_cur = 0; //текущий элемент
+	ClassTree* array = new ClassTree[a_size];
 
 
-	//while (true)
-	//{
-	//	system("cls");
-	//	cout << "Hello, this is the laba 1 by Zamotohina Maria" << endl;
-
-	//	if (a_size > 0)
-	//	{
-	//		PrintTree(array[a_cur]);
-	//		cout << "\nnumber of this tree = " << a_cur + 1 << endl;
-	//		cout << "number of all trees = " << a_size << endl;
-	//	}
-	//	else
-	//	{
-	//		system("cls");
-	//		printf("List of trees is empty\n");
-	//		a_size = 0;
-	//		a_cur = -1;
-	//	}
-
-	//	int m1 = menu1();
-	//	if (m1 == 27) break;
-	//	switch (m1)
-	//	{
-	//	case 75:
-	//		if (a_cur > 0) a_cur--;
-	//		break;
-	//	case 77:
-	//		if (a_cur < a_size - 1) a_cur++;
-	//		break;
-	//	case 49:
-	//		array = InsertInArray(array, a_cur, &a_size);
-	//		a_cur += 1;
-	//		
-	//		//cout << array[0].GetRoot()->data;
-	//		//array[0].print(array[0].GetRoot(), Treelevel);
-	//		system("pause");
-	//		break;
-	//	case 50:
-	//		system("cls");
-	//		if (a_size == 0) cout << "Trees is not exist";
-	//		DeleteTree(&array, a_cur, &a_size);
-	//		if (a_cur == a_size) a_cur -= 1;
-	//		system("pause");
-	//		break;
-	//	}
-	//}
-	
-	int x;
-
-	ClassTree t;
-	t = CreateTree();
-
-	for (int i = 0; i < 10; i++)
+	while (true)
 	{
-		cout << "Input new value, № " << i << endl;
-		x = InputValue();
-		while (t.insert(x) == false)
+		system("cls");
+		cout << "Hello, this is the laba 1 by Zamotohina Maria" << endl;
+
+		if (a_size > 0)
 		{
-			cout << "This value is exist. Please, input new value" << endl;
-			x = InputValue();
+			PrintTree(array[a_cur]);
+			cout << "\nnumber of this tree = " << a_cur + 1 << endl;
+			cout << "number of all trees = " << a_size << endl;
+		}
+		else
+		{
+			system("cls");
+			printf("List of trees is empty\n");
+			a_size = 0;
+			a_cur = -1;
+		}
+
+		int m1 = menu1();
+		if (m1 == 27) break;
+		switch (m1)
+		{
+		case 75:
+			if (a_cur > 0) a_cur--;
+			break;
+		case 77:
+			if (a_cur < a_size - 1) a_cur++;
+			break;
+		case 49:
+			array = InsertInArray(array, a_cur, &a_size);
+			a_cur += 1;
+			system("pause");
+			break;
+		case 50:
+			system("cls");
+			if (a_size == 0) cout << "Trees is not exist" << endl;
+			else 
+			{
+				array = DeleteTree(array, a_cur, &a_size);
+				if (a_cur == a_size) a_cur -= 1;
+			}
+			system("pause");
+			break;
 		}
 	}
+	
+	/*int x;
+
+	ClassTree t = CreateTree();
+	cout << "===============" << endl;
+	ClassTree p = CreateTree();
+	t.print(t.GetRoot(), Treelevel);
+	cout << "===============" << endl;
+	p.print(p.GetRoot(), Treelevel);
+	t = p;
+
 
 	t.print(t.GetRoot(), Treelevel);
 	cout << "--------------------------" << endl;
@@ -205,7 +208,7 @@ int main()
 	x = InputValue();
 	t.erase(x, t.GetRoot());
 	t.print(t.GetRoot(), Treelevel);
-	cout << "--------------------------" << endl;
+	cout << "--------------------------" << endl;*/
 
 	return 0;
 }

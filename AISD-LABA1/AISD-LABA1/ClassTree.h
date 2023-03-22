@@ -22,7 +22,8 @@ public:
 	ClassTree(int data = -999999);
 	ClassTree(const ClassTree& tree);
 	~ClassTree();
-	void CopyTree(Tree* p, Tree* copy) const;
+	ClassTree operator = (const ClassTree& t);
+	Tree* CopyTree(Tree* copy, Tree* t) const;
 	Tree* GetRoot() const;
 	void print(Tree* root, int level) const;
 	bool insert(int key);
