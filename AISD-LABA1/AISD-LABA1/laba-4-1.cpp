@@ -43,6 +43,11 @@ ClassTree CreateTree()
 {
 	cout << "Input number of elements in the tree: ";
 	int n = InputValue();
+	while (n < 1)
+	{
+		cout << "Input the correct value" << endl;
+		n = InputValue();
+	}
 
 	cout << "Input root value: ";
 	int x = InputValue();
@@ -113,7 +118,7 @@ int menu1()
 	cout << "Press 3 to find average times" << endl;
 	cout << "Press 4 to do the task" << endl;
 
-	cout << "Navigation:" << endl;
+	cout << "\nNavigation:" << endl;
 	cout << "\tNext tree ->" << endl; //77
 	cout << "\tPrev tree <-" << endl; //75
 	cout << "Press Esc to finish the program" << endl;
@@ -209,38 +214,54 @@ void Research(int k)
 	t.Delete(tree->GetRoot());
 }
 
-void RoundTRee(Tree* root, ClassTree* t, int** arr, int* i)
+void RoundTRee(Tree* root, ClassTree* t, int** arr, int* i, bool flag)
 {
 	if (root)
 	{
 		if (root)
 		{
-			RoundTRee(root->left, t,  arr, i);
-			if (t->contains(root->data) == true)
+			RoundTRee(root->left, t,  arr, i, flag);
+			if (flag == true)
 			{
-				(*arr)[*i] = root->data;
-				(*i) += 1;
+				if (t->contains(root->data) == true)
+				{
+					(*arr)[*i] = root->data;
+					(*i) += 1;
+				}
 			}
-			RoundTRee(root->right, t, arr, i);
+			else
+			{
+				if (t->contains(root->data) == false)
+				{
+					(*arr)[*i] = root->data;
+					(*i) += 1;
+				}
+			}
+			RoundTRee(root->right, t, arr, i, flag);
 		}
 	}
 }
-
-int* Summ(ClassTree* a, ClassTree* b, int* n_answ)
+int Choise(int a, int b)
 {
+	int x = InputValue();
+	while (x < a || x > b)
+	{
+		cout << "Input the correct number" << endl;
+		x = InputValue();
+	}
+	return x;
+}
+
+int* Zadanie(ClassTree* a, ClassTree* b, int* n_answ)
+{
+	cout << "Press 1, to find summ and 2 to find difference of two trees" << endl;
+	int x = Choise(1, 2);
+	bool flag;
+	if (x == 1) flag = true;
+	else flag = false;
 	int* answ = new int[100];
 	*n_answ = 0;
-	RoundTRee(a->GetRoot(), b, &answ, n_answ);
-
-	//for (int i = 0; i < n1; i++)
-	//{
-	//	unsigned j = 0;
-	//	while (arr1[i] >= arr2[j])
-	//	{
-	//		if (arr1[i] == arr2[j]) answ[(*n_answ)++] = arr1[i];
-	//		j++;
-	//	}
-	//}
+	RoundTRee(a->GetRoot(), b, &answ, n_answ, flag);
 	return answ;
 }
 
@@ -317,9 +338,17 @@ int main()
 			}
 			break;
 		case 52:
-			int n = 0;
-			int* arr = Summ(&array[0], &array[1], &n);
-			cout << "\n Answer:" << endl;
+			system("cls");
+			int n1, n2, n;
+			cout << "Input number of two trees to to the task (number of all trees = " << a_size <<  "):" << endl;
+			cout << "1 tree: ";
+			n1 = Choise(0, a_size - 1);
+			cout << "2 tree: ";
+			n2 = Choise(0, a_size - 1);
+
+			n = 0;
+			int* arr = Zadanie(&array[n1], &array[n2], &n);
+			cout << "\nAnswer:" << endl;
 			for (int i = 0; i < n; i++) cout << arr[i] << endl;
 			system("pause");
 		}
