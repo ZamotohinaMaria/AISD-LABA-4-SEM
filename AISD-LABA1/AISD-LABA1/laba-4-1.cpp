@@ -41,12 +41,13 @@ void PrintTree(const ClassTree& t)
 
 ClassTree CreateTree()
 {
+	cout << "Input number of elements in the tree: ";
+	int n = InputValue();
+
 	cout << "Input root value: ";
 	int x = InputValue();
 	ClassTree t(x);
 
-	cout << "Input number of elements in the tree: ";
-	int n = InputValue();
 	while (n <= 0)
 	{
 		cout << "Input correct value (n > 0)" << endl;
@@ -95,12 +96,6 @@ ClassTree* DeleteTree(ClassTree* array, int a_cur, int* a_size)
 			new_array[i] = array[i];
 		else if (i == a_cur)
 		{
-			/*while (array[i].GetRoot())
-			{
-				array[i].erase((array[i].GetRoot())->data, array[i].GetRoot());
-				cout << "===============" << endl;
-				array[i].print(array[i].GetRoot(), Treelevel);
-			}*/
 			array[i].Delete(array[i].GetRoot());
 		}
 		else  if (i >= a_cur)
@@ -116,6 +111,7 @@ int menu1()
 	cout << "Press 1 to create new tree" << endl;
 	cout << "Press 2 to delete tree on the screen" << endl;
 	cout << "Press 3 to find average times" << endl;
+	cout << "Press 4 to do the task" << endl;
 
 	cout << "Navigation:" << endl;
 	cout << "\tNext tree ->" << endl; //77
@@ -124,7 +120,7 @@ int menu1()
 	while (true)
 	{
 		int key = getkey();
-		if ((key == 49) || (key == 50) || (key == 51) || (key == 27) || (key == 77) || (key == 75)) return key;
+		if ((key == 49) || (key == 50) || (key == 51) || (key == 52) || (key == 27) || (key == 77) || (key == 75)) return key;
 	}
 }
 
@@ -213,6 +209,41 @@ void Research(int k)
 	t.Delete(tree->GetRoot());
 }
 
+void RoundTRee(Tree* root, ClassTree* t, int** arr, int* i)
+{
+	if (root)
+	{
+		if (root)
+		{
+			RoundTRee(root->left, t,  arr, i);
+			if (t->contains(root->data) == true)
+			{
+				(*arr)[*i] = root->data;
+				(*i) += 1;
+			}
+			RoundTRee(root->right, t, arr, i);
+		}
+	}
+}
+
+int* Summ(ClassTree* a, ClassTree* b, int* n_answ)
+{
+	int* answ = new int[100];
+	*n_answ = 0;
+	RoundTRee(a->GetRoot(), b, &answ, n_answ);
+
+	//for (int i = 0; i < n1; i++)
+	//{
+	//	unsigned j = 0;
+	//	while (arr1[i] >= arr2[j])
+	//	{
+	//		if (arr1[i] == arr2[j]) answ[(*n_answ)++] = arr1[i];
+	//		j++;
+	//	}
+	//}
+	return answ;
+}
+
 int main()
 {
 	int a_size = 0; //размер динамического массива
@@ -285,6 +316,12 @@ int main()
 				system("pause");
 			}
 			break;
+		case 52:
+			int n = 0;
+			int* arr = Summ(&array[0], &array[1], &n);
+			cout << "\n Answer:" << endl;
+			for (int i = 0; i < n; i++) cout << arr[i] << endl;
+			system("pause");
 		}
 	}
 	
