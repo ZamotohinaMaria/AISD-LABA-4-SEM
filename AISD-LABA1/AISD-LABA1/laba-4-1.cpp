@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <conio.h>
 #include <time.h>
+#include <vector>
+
 
 #define Treelevel 3
 
@@ -147,93 +149,135 @@ int menu2()
 void Research(int k)
 {
 	ClassTree* tree, t;
+	//vector<int> v;
+
 	clock_t start, end;
-	double** average_time = new double*[k];
-	for (int i = 0; i < k; i++) average_time[i] = new double[100];
+	long double* insert_time = new long double[100];
+	long double* delete_time = new long double[100];
+	long double* poisk_time = new long double[100];
 	size_t x;
+	long double av_t, av_d;
 
 	ofstream out;   // поток для записи
 	string name;
-	if (k == 1000) name = "insert1000.txt";
-	if (k == 10000) name = "insert10000.txt";
-	if (k == 100000) name = "insert100000.txt";
+	if (k == 1000) name = "insert1000-10000.txt";
+	if (k == 10000) name = "insert10000-100000.txt";
+	if (k == 100000) name = "insert100000-1000000.txt";
 	out.open(name);      // открываем файл для записи
 	
-	for (int i = 0; i < 100; i++)
+	for (int q = 0; q < 100; q++)
 	{
 		tree = new ClassTree(int(lcg()));
 		t = *tree;
-		
-		for (int j = 0; j < k; j++)
+
+		for (int j = 0; j < k+q*(k/10); j++)
 		{
-			start = clock();
-			t.insert(lcg());
-			end = clock();
-			average_time[j][i] = (double(end - start)) / (double(CLOCKS_PER_SEC));
+			x = lcg();
+			while (t.contains(x) == true) x = lcg();
+			t.insert(x);
+		}
+		/*for (int j = 0; j < k + q * (k / 10); j++)
+		{
+			x = lcg();
+			while ((find(v.begin(), v.end(), x) != v.end())== true) x = lcg();
+			v.push_back(x);
+		}*/
+
+		/*for (int i = 0; i < 100; i++)
+		{
+			tree = new ClassTree(int(lcg()));
+			t = *tree;
+
+			for (int j = 0; j < k; j++)
+			{
+				start = clock();
+				t.insert(lcg());
+				end = clock();
+				average_time[j][i] = (double(end - start)) / (double(CLOCKS_PER_SEC));
+			}
+
+			if (i != 99) t.Delete(t.GetRoot());
 		}
 
-		if (i != 99) t.Delete(t.GetRoot());
-	}
-
-	double sum;
-	for (int i = 0; i < k; i++)
-	{
-		sum = 0;
-		for (int j = 0; j < 100; j++)
+		double sum;
+		for (int i = 0; i < k; i++)
 		{
-			sum += average_time[i][j];
+			for (int j = 0; j < 100; j++)
+			{
+				start = clock();
+				t.insert(lcg());
+				end = clock();
+				average_time[j][i] = (double(end - start)) / (double(CLOCKS_PER_SEC));
+			}
+			if (out.is_open())
+			{
+				out << sum / 100 << std::endl;
+			}
 		}
+		cout << endl << "Time of filling tree by " << k << " elements = " << average_time << endl;
+		out.close();*/
+
 		if (out.is_open())
 		{
-			out << sum / 100 << std::endl;
+			out << k + q * (k / 10) << '\t';
 		}
+
+		av_t = 0;
+		for (int i = 0; i < 1000; i++)
+		{
+			x = lcg();
+			while (t.contains(x) == false) x = lcg();
+			start = clock();
+			t.Poisk(x, t.GetRoot());
+			end = clock();
+			av_t += (double(end - start)) / (double(CLOCKS_PER_SEC));
+		}
+		av_t /= 1000;
+		poisk_time[q] = av_t;
+		if (out.is_open())
+		{
+			out << av_t << '\t';
+		}
+		cout << endl << "Time of find random number in the tree of " << k + q * (k / 10) << " elements = " << av_t << endl;
+
+		av_t = av_d = 0;
+		for (int i = 0; i < 1000; i++)
+		{
+			x = lcg();
+			while (t.contains(x) == true) x = lcg();
+			start = clock();
+			t.insert(x);
+			end = clock();
+			av_t += (double(end - start)) / (double(CLOCKS_PER_SEC));
+
+			start = clock();
+			t.erase(x, t.GetRoot());
+			end = clock();
+			av_d += (double(end - start)) / (double(CLOCKS_PER_SEC));
+		}
+		av_t /= 1000;
+		insert_time[q] = av_t;
+		av_d /= 1000;
+		delete_time[q] = av_d;
+		if (out.is_open())
+		{
+			out << av_t << '\t';
+		}
+		cout << endl << "Time of insert random number in the tree of " << k + q * (k / 10) << " elements = " << av_t << endl;
+		if (out.is_open())
+		{
+			out << av_d << endl;
+		}
+		cout << endl << "Time of delete random number in the tree of " << k + q * (k / 10) << " elements = " << av_t << endl;
+
+		t.Delete(tree->GetRoot());
+		//v.clear();
 	}
-	cout << endl << "Time of filling tree by " << k << " elements = " << average_time << endl;
+
 	out.close();
-
-	//average_time = 0;
-	//for (int i = 0; i < 1000; i++)
-	//{
-	//	x = lcg();
-	//	while (t.contains(x) == false) x = lcg();
-	//	start = clock();
-	//	t.Poisk(x, t.GetRoot());
-	//	end = clock();
-	//	average_time += (double(end - start)) / (double(CLOCKS_PER_SEC));
-	//	//cout << "average time = " << average_time;
-	//}
-	//average_time /= 100;
-	//cout << endl << "Time of find random number in the tree of " << k << " elements = " << average_time << endl;
-
-	//average_time = 0;
-	//for (int i = 0; i < 1000; i++)
-	//{
-	//	x = lcg();
-	//	while (t.contains(x) == true) x = lcg();
-	//	start = clock();
-	//	t.insert(x);
-	//	end = clock();
-	//	average_time += (double(end - start)) / (double(CLOCKS_PER_SEC));
-	//	//if (k == 100000) cout << "average time = " << average_time;
-	//}
-	//average_time /= 100;
-	//cout << endl << "Time of insert random number in the tree of " << k << " elements = " << average_time << endl;
-
-	//average_time = 0;
-	//for (int i = 0; i < 1000; i++)
-	//{
-	//	x = lcg();
-	//	while (t.contains(x) == false) x = lcg();
-	//	start = clock();
-	//	t.erase(x, t.GetRoot());
-	//	end = clock();
-	//	average_time += (double(end - start)) / (double(CLOCKS_PER_SEC));
-	//	//cout << "average time = " << average_time;
-	//}
-	//average_time /= 100;
-	//cout << endl << "Time of deleting random number in the tree of " << k << " elements = " << average_time << endl;
-
-	t.Delete(tree->GetRoot());
+	delete[] insert_time;
+	delete[] delete_time;
+	delete[] poisk_time;
 }
 
 void RoundTRee(Tree* root, ClassTree* t, int** arr, int* i, bool flag)
