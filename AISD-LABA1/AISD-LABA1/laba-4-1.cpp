@@ -3,7 +3,7 @@
 #include "ClassTree.h"
 #include <stdio.h>
 #include <conio.h>
-#include <time.h>
+#include <chrono>
 #include <vector>
 
 
@@ -146,80 +146,35 @@ int menu2()
 	}
 }
 
-void Research(int k)
+void Research()
 {
 	ClassTree* tree, t;
-	//vector<int> v;
+	vector<int> v;
 
-	clock_t start, end;
-	long double* insert_time = new long double[100];
-	long double* delete_time = new long double[100];
-	long double* poisk_time = new long double[100];
+	auto start = chrono::steady_clock::now();
+	auto end = chrono::steady_clock::now();
 	size_t x;
 	long double av_t, av_d;
 
 	ofstream out;   // поток для записи
 	string name;
-	if (k == 1000) name = "insert1000-10000.txt";
-	if (k == 10000) name = "insert10000-100000.txt";
-	if (k == 100000) name = "insert100000-1000000.txt";
-	out.open(name);      // открываем файл для записи
+	out.open("research.txt");      // открываем файл для записи
 	
-	for (int q = 0; q < 100; q++)
+	for (int k = 1000; k <= 100000; k*=10)
 	{
 		tree = new ClassTree(int(lcg()));
 		t = *tree;
 
-		for (int j = 0; j < k+q*(k/10); j++)
+		for (int j = 0; j < k; j++)
 		{
 			x = lcg();
 			while (t.contains(x) == true) x = lcg();
 			t.insert(x);
 		}
-		/*for (int j = 0; j < k + q * (k / 10); j++)
-		{
-			x = lcg();
-			while ((find(v.begin(), v.end(), x) != v.end())== true) x = lcg();
-			v.push_back(x);
-		}*/
-
-		/*for (int i = 0; i < 100; i++)
-		{
-			tree = new ClassTree(int(lcg()));
-			t = *tree;
-
-			for (int j = 0; j < k; j++)
-			{
-				start = clock();
-				t.insert(lcg());
-				end = clock();
-				average_time[j][i] = (double(end - start)) / (double(CLOCKS_PER_SEC));
-			}
-
-			if (i != 99) t.Delete(t.GetRoot());
-		}
-
-		double sum;
-		for (int i = 0; i < k; i++)
-		{
-			for (int j = 0; j < 100; j++)
-			{
-				start = clock();
-				t.insert(lcg());
-				end = clock();
-				average_time[j][i] = (double(end - start)) / (double(CLOCKS_PER_SEC));
-			}
-			if (out.is_open())
-			{
-				out << sum / 100 << std::endl;
-			}
-		}
-		cout << endl << "Time of filling tree by " << k << " elements = " << average_time << endl;
-		out.close();*/
 
 		if (out.is_open())
 		{
-			out << k + q * (k / 10) << '\t';
+			out << k << '\t';
 		}
 
 		av_t = 0;
@@ -227,57 +182,118 @@ void Research(int k)
 		{
 			x = lcg();
 			while (t.contains(x) == false) x = lcg();
-			start = clock();
+			start = chrono::steady_clock::now();
 			t.Poisk(x, t.GetRoot());
-			end = clock();
-			av_t += (double(end - start)) / (double(CLOCKS_PER_SEC));
+			end = chrono::steady_clock::now();
+			av_t += long double(chrono::duration_cast<chrono::nanoseconds>(end - start).count());
 		}
 		av_t /= 1000;
-		poisk_time[q] = av_t;
 		if (out.is_open())
 		{
 			out << av_t << '\t';
 		}
-		cout << endl << "Time of find random number in the tree of " << k + q * (k / 10) << " elements = " << av_t << endl;
+		cout << endl << "Time of find random number in the tree of " << k << " elements = " << av_t << endl;
+
 
 		av_t = av_d = 0;
 		for (int i = 0; i < 1000; i++)
 		{
 			x = lcg();
 			while (t.contains(x) == true) x = lcg();
-			start = clock();
+			start = chrono::steady_clock::now();
 			t.insert(x);
-			end = clock();
-			av_t += (double(end - start)) / (double(CLOCKS_PER_SEC));
+			end = chrono::steady_clock::now();
+			av_t += long double(chrono::duration_cast<chrono::nanoseconds>(end - start).count());
 
-			start = clock();
+			start = chrono::steady_clock::now();
 			t.erase(x, t.GetRoot());
-			end = clock();
-			av_d += (double(end - start)) / (double(CLOCKS_PER_SEC));
+			end = chrono::steady_clock::now();
+			av_d += long double(chrono::duration_cast<chrono::nanoseconds>(end - start).count());
 		}
 		av_t /= 1000;
-		insert_time[q] = av_t;
 		av_d /= 1000;
-		delete_time[q] = av_d;
 		if (out.is_open())
 		{
 			out << av_t << '\t';
 		}
-		cout << endl << "Time of insert random number in the tree of " << k + q * (k / 10) << " elements = " << av_t << endl;
+		cout << endl << "Time of insert random number in the tree of " << k << " elements = " << av_t << endl;
 		if (out.is_open())
 		{
 			out << av_d << endl;
 		}
-		cout << endl << "Time of delete random number in the tree of " << k + q * (k / 10) << " elements = " << av_t << endl;
-
+		cout << endl << "Time of delete random number in the tree of " << k << " elements = " << av_t << endl;
+		cout << "-----------------------------------------------------" << endl;
+		
 		t.Delete(tree->GetRoot());
-		//v.clear();
 	}
+	//------------------------------------------------------------------------------------------------
+	if (out.is_open())
+	{
+		out << "------------------------------------------------------------------------------" << endl;
+	}
+	for (int k = 1000; k <= 100000; k *= 10)
+	{
+		for (int j = 0; j < k; j++)
+		{
+			x = lcg();
+			while ((find(v.begin(), v.end(), x) != v.end()) == true) x = lcg();
+			v.push_back(x);
+		}
 
+		if (out.is_open())
+		{
+			out << k << '\t';
+		}
+
+		av_t = 0;
+		for (int i = 0; i < 1000; i++)
+		{
+			x = lcg();
+			while ((find(v.begin(), v.end(), x) != v.end()) == false) x = lcg();
+			start = chrono::steady_clock::now();
+			find(v.begin(), v.end(), x) != v.end();
+			end = chrono::steady_clock::now();
+			av_t += long double(chrono::duration_cast<chrono::nanoseconds>(end - start).count());
+		}
+		av_t /= 1000;
+		if (out.is_open())
+		{
+			out << av_t << '\t';
+		}
+		cout << endl << " -- Time of find random number in the vector of " << k << " elements = " << av_t << endl;
+
+
+		av_t = av_d = 0;
+		for (int i = 0; i < 1000; i++)
+		{
+			x = lcg();
+			while ((find(v.begin(), v.end(), x) != v.end()) == true) x = lcg();
+			start = chrono::steady_clock::now();
+			v.push_back(x);
+			end = chrono::steady_clock::now();
+			av_t += long double(chrono::duration_cast<chrono::nanoseconds>(end - start).count());
+
+			start = chrono::steady_clock::now();
+			v.erase(v.end() - 1);
+			end = chrono::steady_clock::now();
+			av_d += long double(chrono::duration_cast<chrono::nanoseconds>(end - start).count());
+		}
+		av_t /= 1000;
+		av_d /= 1000;
+		if (out.is_open())
+		{
+			out << av_t << '\t';
+		}
+		cout << endl << " -- Time of insert random number in the vector of " << k << " elements = " << av_t << endl;
+		if (out.is_open())
+		{
+			out << av_d << endl;
+		}
+		cout << endl << " -- Time of delete random number in the vector of " << k << " elements = " << av_t << endl;
+		cout << "-----------------------------------------------------" << endl;
+		v.clear();
+	}
 	out.close();
-	delete[] insert_time;
-	delete[] delete_time;
-	delete[] poisk_time;
 }
 
 void RoundTRee(Tree* root, ClassTree* t, int** arr, int* i, bool flag)
@@ -385,7 +401,9 @@ int main()
 			system("pause");
 			break;
 		case 51:
-			while (true)
+			system("cls");
+			Research();
+			/*while (true)
 			{
 				system("cls");
 				int m2 = menu2();
@@ -402,8 +420,8 @@ int main()
 					Research(100000);
 					break;
 				}
-				system("pause");
-			}
+			}*/
+			system("pause");
 			break;
 		case 52:
 			system("cls");
