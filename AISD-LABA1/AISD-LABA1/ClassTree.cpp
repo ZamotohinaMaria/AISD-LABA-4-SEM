@@ -69,7 +69,7 @@ void ClassTree:: print(Tree* root = NULL, int level = 3) const
 		if (root)
 		{
 			print(root->right, level + 1);
-			for (int i = 0; i < level; i++) cout << "         ";
+			for (int i = 0; i < level; i++) cout << "      ";
 			cout << root->data << endl;
 			print(root->left, level + 1);
 		}
