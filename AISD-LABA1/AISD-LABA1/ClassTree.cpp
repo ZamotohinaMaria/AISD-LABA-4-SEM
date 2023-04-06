@@ -69,7 +69,7 @@ void ClassTree:: print(Tree* root = NULL, int level = 3) const
 		if (root)
 		{
 			print(root->right, level + 1);
-			for (int i = 0; i < level; i++) cout << "   ";
+			for (int i = 0; i < level; i++) cout << "         ";
 			cout << root->data << endl;
 			print(root->left, level + 1);
 		}
@@ -178,14 +178,14 @@ bool ClassTree::erase(int key, Tree* root = NULL)
 		if (tmp->left != NULL && tmp->right == NULL)
 		{
 			Tree* tmp_del = tmp;
-			root = tmp->left;
+			this->root = tmp->left;
 			delete tmp_del;
 			tmp_del = NULL;
 		}
 		if (tmp->left == NULL && tmp->right != NULL)
 		{
 			Tree* tmp_del = tmp;
-			root = tmp->right;
+			this->root = tmp->right;
 			delete tmp_del;
 			tmp_del = NULL;
 		}

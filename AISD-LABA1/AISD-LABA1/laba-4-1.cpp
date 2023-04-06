@@ -7,7 +7,7 @@
 #include <vector>
 
 
-#define Treelevel 3
+#define Treelevel 1
 
 using namespace std;
 
@@ -117,9 +117,10 @@ int menu1()
 {
 	cout << endl << "This is main menu" << endl;
 	cout << "Press 1 to create new tree" << endl;
-	cout << "Press 2 to delete tree on the screen" << endl;
-	cout << "Press 3 to find average times" << endl;
-	cout << "Press 4 to do the task" << endl;
+	cout << "Press 2 to change tree on the screen" << endl;
+	cout << "Press 3 to delete tree on the screen" << endl;
+	cout << "Press 4 to find average times" << endl;
+	cout << "Press 5 to do the task" << endl;
 
 	cout << "\nNavigation:" << endl;
 	cout << "\tNext tree ->" << endl; //77
@@ -128,21 +129,20 @@ int menu1()
 	while (true)
 	{
 		int key = getkey();
-		if ((key == 49) || (key == 50) || (key == 51) || (key == 52) || (key == 27) || (key == 77) || (key == 75)) return key;
+		if ((key == 49) || (key == 50) || (key == 51) || (key == 52) || (key == 53) || (key == 27) || (key == 77) || (key == 75)) return key;
 	}
 }
 
 int menu2()
 {
-	cout << "Press 1 to find average time for 1000 elements" << endl;
-	cout << "Press 2 to find average time for 10000 elements" << endl;
-	cout << "Press 3 to find average time for 100000 elements" << endl;
+	cout << "Press 1 to insert value in the tree" << endl;
+	cout << "Press 2 to delete value in the tree" << endl;
 	cout << "Press Esc to return to the main menu" << endl;
 
 	while (true)
 	{
 		int key = getkey();
-		if ((key == 49) || (key == 50) || (key == 51) || (key == 27) || (key == 77) || (key == 75)) return key;
+		if ((key == 49) || (key == 50) || (key == 27) || (key == 77) || (key == 75)) return key;
 	}
 }
 
@@ -391,6 +391,38 @@ int main()
 			system("pause");
 			break;
 		case 50:
+			while (true)
+			{
+				system("cls");
+				if (a_size == 0)
+				{
+					cout << "Trees is not exist" << endl;
+					break;
+				}
+				else
+				{
+					PrintTree(array[a_cur]);
+					int x;
+					int m2 = menu2();
+					if (m2 == 27) break;
+					switch (m2)
+					{
+					case 49:
+						cout << "Input value ";
+						x = InputValue();
+						array[a_cur].insert(x);
+						break;
+					case 50:
+						cout << "Input value ";
+						x = InputValue();
+						array[a_cur].erase(x, array[a_cur].GetRoot());
+						break;
+					}
+				}
+			}
+			system("pause");
+			break;
+		case 51:
 			system("cls");
 			if (a_size == 0) cout << "Trees is not exist" << endl;
 			else 
@@ -400,31 +432,19 @@ int main()
 			}
 			system("pause");
 			break;
-		case 51:
-			system("cls");
-			Research();
-			/*while (true)
-			{
-				system("cls");
-				int m2 = menu2();
-				if (m2 == 27) break;
-				switch (m2)
-				{
-				case 49:
-					Research(1000);
-					break;
-				case 50:
-					Research(10000);
-					break;
-				case 51:
-					Research(100000);
-					break;
-				}
-			}*/
-			system("pause");
-			break;
 		case 52:
 			system("cls");
+			Research();
+			system("pause");
+			break;
+		case 53:
+			system("cls");
+			if (a_size == 0)
+			{
+				cout << "Trees is not exist" << endl;
+				system("pause");
+				break;
+			}
 			int n1, n2, n;
 			cout << "Input number of two trees to to the task (number of all trees = " << a_size <<  "):" << endl;
 			cout << "1 tree: ";
