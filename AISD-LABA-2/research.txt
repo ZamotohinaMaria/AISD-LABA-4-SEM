@@ -1,0 +1,36 @@
+results for sorted vector
+
+1000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 199; Count of comparison in merge sort = 99
+
+2000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 439; Count of comparison in merge sort = 219
+
+3000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 698; Count of comparison in merge sort = 349
+
+4000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 958; Count of comparison in merge sort = 479
+
+results for reversed vector
+
+1000
+Count of copies in vstavki sort = 499282; Count of comparison in vstavki sort = 4992
+Count of copies in merge sort = 199; Count of comparison in merge sort = 99
+
+2000
+Count of copies in vstavki sort = 1997958; Count of comparison in vstavki sort = 19979
+Count of copies in merge sort = 439; Count of comparison in merge sort = 219
+
+3000
+Count of copies in vstavki sort = 4496215; Count of comparison in vstavki sort = 44962
+Count of copies in merge sort = 698; Count of comparison in merge sort = 349
+
+4000
+Count of copies in vstavki sort = 7994030; Count of comparison in vstavki sort = 79940
+Count of copies in merge sort = 958; Count of comparison in merge sort = 479
+
