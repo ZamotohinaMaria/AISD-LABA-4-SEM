@@ -279,7 +279,7 @@ void Research_Sorted_Vector(int* nums)
 void Research_Reversed_Vector(int* nums)
 {
 	ofstream out; 
-	out.open("research-reversed.txt", ios_base::app);
+	out.open("research.txt", ios_base::app);
 
 
 	cout << "results for reversed vector" << endl;
@@ -299,16 +299,16 @@ void Research_Reversed_Vector(int* nums)
 		Revers_Vector(arr, n);
 
 		vs = Vstavki(arr, n);
-		Fast_Sort(arr, 0, n - 1, &fs);
+		//Fast_Sort(arr, 0, n - 1, &fs);
 		Merge_Sort(arr, 0, n - 1, n, &ms);
 
 		cout << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
-		cout << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
+		//cout << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
 		cout << "Count of copies in merge sort = " << ms.copy_count << "; Count of comparison in merge sort = " << ms.comparison_count << endl;
 		cout << endl;
 
 		out << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
-		out << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
+		//out << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
 		out << "Count of copies in merge sort = " << ms.copy_count << "; Count of comparison in merge sort = " << ms.comparison_count << endl;
 		out << endl;
 
