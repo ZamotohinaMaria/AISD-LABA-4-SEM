@@ -1,0 +1,227 @@
+results for random vector
+
+1000
+Count of copies in vstavki sort = 250147; Count of comparison in vstavki sort = 250147
+Count of copies in fast sort = 6268; Count of comparison in fast sort = 5600
+Count of copies in merge sort = 19952; Count of comparison in merge sort = 9976
+
+2000
+Count of copies in vstavki sort = 997205; Count of comparison in vstavki sort = 997205
+Count of copies in fast sort = 14215; Count of comparison in fast sort = 12862
+Count of copies in merge sort = 43904; Count of comparison in merge sort = 21952
+
+3000
+Count of copies in vstavki sort = 2251679; Count of comparison in vstavki sort = 2251679
+Count of copies in fast sort = 23118; Count of comparison in fast sort = 21050
+Count of copies in merge sort = 69808; Count of comparison in merge sort = 34904
+
+4000
+Count of copies in vstavki sort = 3998599; Count of comparison in vstavki sort = 3998599
+Count of copies in fast sort = 32380; Count of comparison in fast sort = 29556
+Count of copies in merge sort = 95808; Count of comparison in merge sort = 47904
+
+5000
+Count of copies in vstavki sort = 6249590; Count of comparison in vstavki sort = 6249590
+Count of copies in fast sort = 42824; Count of comparison in fast sort = 39207
+Count of copies in merge sort = 123616; Count of comparison in merge sort = 61808
+
+6000
+Count of copies in vstavki sort = 8997045; Count of comparison in vstavki sort = 8997045
+Count of copies in fast sort = 53721; Count of comparison in fast sort = 49270
+Count of copies in merge sort = 151616; Count of comparison in merge sort = 75808
+
+7000
+Count of copies in vstavki sort = 12245522; Count of comparison in vstavki sort = 12245522
+Count of copies in fast sort = 64230; Count of comparison in fast sort = 58903
+Count of copies in merge sort = 179616; Count of comparison in merge sort = 89808
+
+8000
+Count of copies in vstavki sort = 15994672; Count of comparison in vstavki sort = 15994672
+Count of copies in fast sort = 76302; Count of comparison in fast sort = 70073
+Count of copies in merge sort = 207616; Count of comparison in merge sort = 103808
+
+9000
+Count of copies in vstavki sort = 20228449; Count of comparison in vstavki sort = 20228449
+Count of copies in fast sort = 88741; Count of comparison in fast sort = 81581
+Count of copies in merge sort = 237232; Count of comparison in merge sort = 118616
+
+10000
+Count of copies in vstavki sort = 24994203; Count of comparison in vstavki sort = 24994203
+Count of copies in fast sort = 101868; Count of comparison in fast sort = 93759
+Count of copies in merge sort = 267232; Count of comparison in merge sort = 133616
+
+25000
+Count of copies in vstavki sort = 156219153; Count of comparison in vstavki sort = 156219153
+Count of copies in fast sort = 355033; Count of comparison in fast sort = 332032
+Count of copies in merge sort = 734464; Count of comparison in merge sort = 367232
+
+50000
+Count of copies in vstavki sort = 624494244; Count of comparison in vstavki sort = 624494244
+Count of copies in fast sort = 1023481; Count of comparison in fast sort = 975480
+Count of copies in merge sort = 1568928; Count of comparison in merge sort = 784464
+
+100000
+Count of copies in vstavki sort = 2497980528; Count of comparison in vstavki sort = 2497980528
+Count of copies in fast sort = 3317685; Count of comparison in fast sort = 3219684
+Count of copies in merge sort = 3337856; Count of comparison in merge sort = 1668928
+
+results for sorted vector
+
+1000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 19952; Count of comparison in merge sort = 9976
+
+2000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 43904; Count of comparison in merge sort = 21952
+
+3000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 69808; Count of comparison in merge sort = 34904
+
+4000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 95808; Count of comparison in merge sort = 47904
+
+5000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 123616; Count of comparison in merge sort = 61808
+
+6000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 151616; Count of comparison in merge sort = 75808
+
+7000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 179616; Count of comparison in merge sort = 89808
+
+8000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 207616; Count of comparison in merge sort = 103808
+
+9000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 237232; Count of comparison in merge sort = 118616
+
+10000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 267232; Count of comparison in merge sort = 133616
+
+25000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 734464; Count of comparison in merge sort = 367232
+
+50000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 1568928; Count of comparison in merge sort = 784464
+
+100000
+Count of copies in vstavki sort = 0; Count of comparison in vstavki sort = 0
+Count of copies in merge sort = 3337856; Count of comparison in merge sort = 1668928
+
+results for reversed vector
+
+1000
+Count of copies in vstavki sort = 499264; Count of comparison in vstavki sort = 499264
+Count of copies in merge sort = 19952; Count of comparison in merge sort = 9976
+
+2000
+Count of copies in vstavki sort = 1998012; Count of comparison in vstavki sort = 1998012
+Count of copies in merge sort = 43904; Count of comparison in merge sort = 21952
+
+3000
+Count of copies in vstavki sort = 4496266; Count of comparison in vstavki sort = 4496266
+Count of copies in merge sort = 69808; Count of comparison in merge sort = 34904
+
+4000
+Count of copies in vstavki sort = 7993955; Count of comparison in vstavki sort = 7993955
+Count of copies in merge sort = 95808; Count of comparison in merge sort = 47904
+
+5000
+Count of copies in vstavki sort = 12491385; Count of comparison in vstavki sort = 12491385
+Count of copies in merge sort = 123616; Count of comparison in merge sort = 61808
+
+6000
+Count of copies in vstavki sort = 17987996; Count of comparison in vstavki sort = 17987996
+Count of copies in merge sort = 151616; Count of comparison in merge sort = 75808
+
+7000
+Count of copies in vstavki sort = 24484288; Count of comparison in vstavki sort = 24484288
+Count of copies in merge sort = 179616; Count of comparison in merge sort = 89808
+
+8000
+Count of copies in vstavki sort = 31980000; Count of comparison in vstavki sort = 31980000
+Count of copies in merge sort = 207616; Count of comparison in merge sort = 103808
+
+9000
+Count of copies in vstavki sort = 40475181; Count of comparison in vstavki sort = 40475181
+Count of copies in merge sort = 237232; Count of comparison in merge sort = 118616
+
+10000
+Count of copies in vstavki sort = 49970013; Count of comparison in vstavki sort = 49970013
+Count of copies in merge sort = 267232; Count of comparison in merge sort = 133616
+
+25000
+Count of copies in vstavki sort = 312331162; Count of comparison in vstavki sort = 312331162
+Count of copies in merge sort = 734464; Count of comparison in merge sort = 367232
+
+50000
+Count of copies in vstavki sort = 1249349232; Count of comparison in vstavki sort = 1249349232
+Count of copies in merge sort = 1568928; Count of comparison in merge sort = 784464
+
+100000
+Count of copies in vstavki sort = 4997449106; Count of comparison in vstavki sort = 4997449106
+Count of copies in merge sort = 3337856; Count of comparison in merge sort = 1668928
+
+times of sorts (microseconds)
+
+1000
+average time of vstavki sort = 5782.38
+average time of fast sort = 190.24
+average time of merge sort = 1381.36
+
+2000
+average time of vstavki sort = 23191.3
+average time of fast sort = 419.29
+average time of merge sort = 3522.79
+
+3000
+average time of vstavki sort = 52193.6
+average time of fast sort = 671.27
+average time of merge sort = 6418.91
+
+4000
+average time of vstavki sort = 92697.5
+average time of fast sort = 946.14
+average time of merge sort = 10067.7
+
+5000
+average time of vstavki sort = 145157
+average time of fast sort = 1233.75
+average time of merge sort = 13175.5
+
+6000
+average time of vstavki sort = 208479
+average time of fast sort = 1521.13
+average time of merge sort = 17353.8
+
+7000
+average time of vstavki sort = 284135
+average time of fast sort = 1834.71
+average time of merge sort = 22047.9
+
+8000
+average time of vstavki sort = 371109
+average time of fast sort = 2136.19
+average time of merge sort = 27273.4
+
+9000
+average time of vstavki sort = 469638
+average time of fast sort = 2452.13
+average time of merge sort = 33755.4
+
+10000
+average time of vstavki sort = 581503
+average time of fast sort = 2808.9
+average time of merge sort = 40911
+

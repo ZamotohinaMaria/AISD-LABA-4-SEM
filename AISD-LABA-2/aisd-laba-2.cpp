@@ -173,7 +173,7 @@ void Research_Random_Vector(int* nums)
 	cout << "results for random vector" << endl;
 	out << "results for random vector\n\n";
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 13; i++)
 	{
 		stats s_vs, s_fs, s_ms;
 		vector<int> arr;
@@ -245,7 +245,7 @@ void Research_Sorted_Vector(int* nums)
 	cout << "results for sorted vector" << endl;
 	out << "results for sorted vector\n\n";
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 13; i++)
 	{
 		vector<int> arr;
 		stats vs, fs, ms, f;
@@ -261,14 +261,14 @@ void Research_Sorted_Vector(int* nums)
 		//Fast_Sort(arr, 0, n - 1, &fs);
 		Merge_Sort(arr, 0, n - 1, n, &ms);
 
-		cout << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count / 100 << endl;
-		//cout << "Count of copies in fast sort = " << fs.copy_count / 100 << "; Count of comparison in fast sort = " << fs.comparison_count / 100 << endl;
-		cout << "Count of copies in merge sort = " << ms.copy_count / 100 << "; Count of comparison in merge sort = " << ms.comparison_count / 100 << endl;
+		cout << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
+		//cout << "Count of copies in fast sort = " << fs.copy_count<< "; Count of comparison in fast sort = " << fs.comparison_count<< endl;
+		cout << "Count of copies in merge sort = " << ms.copy_count<< "; Count of comparison in merge sort = " << ms.comparison_count << endl;
 		cout << endl;
 
-		out << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count / 100 << endl;
-		//out << "Count of copies in fast sort = " << fs.copy_count / 100 << "; Count of comparison in fast sort = " << fs.comparison_count / 100 << endl;
-		out << "Count of copies in merge sort = " << ms.copy_count / 100 << "; Count of comparison in merge sort = " << ms.comparison_count / 100 << endl;
+		out << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
+		//out << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
+		out << "Count of copies in merge sort = " << ms.copy_count<< "; Count of comparison in merge sort = " << ms.comparison_count << endl;
 		out << endl;
 
 		arr.clear();
@@ -279,13 +279,13 @@ void Research_Sorted_Vector(int* nums)
 void Research_Reversed_Vector(int* nums)
 {
 	ofstream out; 
-	out.open("research.txt", ios_base::app);
+	out.open("research-reversed.txt", ios_base::app);
 
 
 	cout << "results for reversed vector" << endl;
 	out << "results for reversed vector\n\n";
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 13; i++)
 	{
 		vector<int> arr;
 		stats vs, fs, ms, f;
@@ -299,17 +299,17 @@ void Research_Reversed_Vector(int* nums)
 		Revers_Vector(arr, n);
 
 		vs = Vstavki(arr, n);
-		//Fast_Sort(arr, 0, n - 1, &fs);
+		Fast_Sort(arr, 0, n - 1, &fs);
 		Merge_Sort(arr, 0, n - 1, n, &ms);
 
-		cout << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count / 100 << endl;
-		//cout << "Count of copies in fast sort = " << fs.copy_count / 100 << "; Count of comparison in fast sort = " << fs.comparison_count / 100 << endl;
-		cout << "Count of copies in merge sort = " << ms.copy_count / 100 << "; Count of comparison in merge sort = " << ms.comparison_count / 100 << endl;
+		cout << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
+		cout << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
+		cout << "Count of copies in merge sort = " << ms.copy_count << "; Count of comparison in merge sort = " << ms.comparison_count << endl;
 		cout << endl;
 
-		out << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count / 100 << endl;
-		//out << "Count of copies in fast sort = " << fs.copy_count / 100 << "; Count of comparison in fast sort = " << fs.comparison_count / 100 << endl;
-		out << "Count of copies in merge sort = " << ms.copy_count / 100 << "; Count of comparison in merge sort = " << ms.comparison_count / 100 << endl;
+		out << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
+		out << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
+		out << "Count of copies in merge sort = " << ms.copy_count << "; Count of comparison in merge sort = " << ms.comparison_count << endl;
 		out << endl;
 
 		arr.clear();
@@ -325,8 +325,8 @@ void Research_Times()
 	auto end = chrono::steady_clock::now();
 	long double average_t;
 
-	cout << "times of sorts" << endl;
-	out << "times of sorts\n\n";
+	cout << "times of sorts (microseconds)" << endl;
+	out << "times of sorts (microseconds)\n\n";
 
 	for (int n = 1000; n <= 10000; n += 1000)
 	{
@@ -334,6 +334,7 @@ void Research_Times()
 
 		cout << endl << n << endl;
 		out << n << endl;
+
 		average_t = 0;
 		for (int i = 0; i < 100; i++)
 		{
@@ -342,11 +343,44 @@ void Research_Times()
 			start = chrono::steady_clock::now();
 			vs = Vstavki(arr, n);
 			end = chrono::steady_clock::now();
-			average_t += long double(chrono::duration_cast<chrono::nanoseconds>(end - start).count());
+			average_t += long double(chrono::duration_cast<chrono::microseconds>(end - start).count());
 			arr.clear();
 		}
 		cout << "average time of vstavki sort = " << average_t / 100 << endl;
+		out << "average time of vstavki sort = " << average_t / 100 << endl;
+
+		average_t = 0;
+		for (int i = 0; i < 100; i++)
+		{
+			stats fs;
+			Create_Random_Vector(arr, n);
+			start = chrono::steady_clock::now();
+			Fast_Sort(arr, 0, n - 1, &fs);
+			end = chrono::steady_clock::now();
+			average_t += long double(chrono::duration_cast<chrono::microseconds>(end - start).count());
+			arr.clear();
+		}
+		cout << "average time of fast sort = " << average_t / 100 << endl;
+		out << "average time of fast sort = " << average_t / 100 << endl;
+
+		average_t = 0;
+		for (int i = 0; i < 100; i++)
+		{
+			stats ms;
+			Create_Random_Vector(arr, n);
+			start = chrono::steady_clock::now();
+			Merge_Sort(arr, 0, n - 1, n, &ms);
+			end = chrono::steady_clock::now();
+			average_t += long double(chrono::duration_cast<chrono::microseconds>(end - start).count());
+			arr.clear();
+		}
+		cout << "average time of merge sort = " << average_t / 100 << endl;
+		out << "average time of merge sort = " << average_t / 100 << endl;
+
+		out << endl;
+		cout << endl;
 	}
+	out.close();
 }
 
 int getkey()
@@ -377,8 +411,8 @@ int main()
 	cout << "HELLO, THIS IS THE SECOND LAB BY ZAMOTOHINA MARIA" << endl;
 	ofstream out;
 	out.open("research.txt", ios_base::trunc);
-	//int n[13] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 25000, 50000, 100000};
-	int n[4] = { 1000, 2000, 3000, 4000};
+	int n[13] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 25000, 50000, 100000};
+	//int n[4] = { 1000, 2000, 3000, 4000};
 	while(true)
 	{
 		system("cls");
@@ -403,7 +437,7 @@ int main()
 			break;
 		case 52:
 			system("cls");
-			
+			Research_Times();
 			system("pause");
 			break;
 		case 27:
