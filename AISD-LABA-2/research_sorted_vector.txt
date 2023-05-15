@@ -1,0 +1,16 @@
+results for sorted vector
+
+numer of elemets	comprasion	copy
+vstavki sort
+1000	0	0
+2000	0	0
+3000	0	0
+4000	0	0
+
+
+merge sort
+1000	19952	9976
+2000	43904	21952
+3000	69808	34904
+4000	95808	47904
+

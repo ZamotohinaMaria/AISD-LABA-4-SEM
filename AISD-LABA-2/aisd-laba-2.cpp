@@ -232,19 +232,20 @@ template <class T>
 void Research_Random_Vector(int* nums)
 {
 	ofstream out; 
-	out.open("research.txt", ios_base::app);
+	out.open("research_random_vector.txt", ios_base::app);
+	vector<T> arr;
 
 	cout << "results for random vector" << endl;
-	out << "results for random vector\n\n";
+	out << "results for random vector" << endl;
+	out << "numer of elemets\tcopy\tcomprasion" << endl;
 
-	for (int j = 0; j < 13; j++)
+	out << "vstavki sort" << endl;
+	for (int j = 0; j < 4; j++)
 	{
-		stats s_vs, s_fs, s_ms;
-		vector<T> arr;
+		stats s_vs;
 
 		int n = nums[j];
 		cout << endl << n << endl;
-		out << n << endl;
 		for (int i = 0; i < 100; i++)
 		{
 			stats vs;
@@ -257,9 +258,19 @@ void Research_Random_Vector(int* nums)
 			arr.clear();
 		}
 
-		out << "Count of copies in vstavki sort = " << s_vs.copy_count / 100 << "; Count of comparison in vstavki sort = " << s_vs.comparison_count / 100 << endl;
+		out << n << '\t' << s_vs.copy_count / 100 << '\t' << s_vs.comparison_count / 100 << endl;
 		cout << "Count of copies in vstavki sort = " << s_vs.copy_count / 100 << "; Count of comparison in vstavki sort = " << s_vs.comparison_count / 100 << endl;
+	}
+	out << endl;
+	cout << endl;
 
+	out << "fast sort" << endl;
+	for (int j = 0; j < 4; j++)
+	{
+		stats s_fs;
+
+		int n = nums[j];
+		cout << endl << n << endl;
 		for (int i = 0; i < 100; i++)
 		{
 			stats fs;
@@ -273,9 +284,19 @@ void Research_Random_Vector(int* nums)
 			arr.clear();
 		}
 
-		out << "Count of copies in fast sort = " << s_fs.copy_count / 100 << "; Count of comparison in fast sort = " << s_fs.comparison_count / 100 << endl;
+		out << n << '\t' << s_fs.copy_count / 100 << '\t' << s_fs.comparison_count / 100 << endl;
 		cout << "Count of copies in fast sort = " << s_fs.copy_count / 100 << "; Count of comparison in fast sort = " << s_fs.comparison_count / 100 << endl;
+	}
+	out << endl;
+	cout << endl;
 
+	out << "merge sort" << endl;
+	for (int j = 0; j < 4; j++)
+	{
+		stats s_ms;
+
+		int n = nums[j];
+		cout << endl << n << endl;
 		for (int i = 0; i < 100; i++)
 		{
 			stats ms;
@@ -289,12 +310,11 @@ void Research_Random_Vector(int* nums)
 			arr.clear();
 		}
 
-		out << "Count of copies in merge sort = " << s_ms.copy_count / 100 << "; Count of comparison in merge sort = " << s_ms.comparison_count / 100 << endl;
+		out << n << '\t' << s_ms.copy_count / 100 << '\t' << s_ms.comparison_count / 100 << endl;
 		cout << "Count of copies in merge sort = " << s_ms.copy_count / 100 << "; Count of comparison in merge sort = " << s_ms.comparison_count / 100 << endl;
-		
-		out << endl;
-		cout << endl;
 	}
+	out << endl;
+	cout << endl;
 	out.close();
 
 }
@@ -303,40 +323,75 @@ template <class T>
 void Research_Sorted_Vector(int* nums)
 {
 	ofstream out; 
-	out.open("research.txt", ios_base::app);
-
+	out.open("research_sorted_vector.txt", ios_base::app);
+	vector<T> arr;
 	
 	cout << "results for sorted vector" << endl;
 	out << "results for sorted vector\n\n";
+	out << "numer of elemets\tcomprasion\tcopy" << endl;
 
-	for (int i = 0; i < 13; i++)
+	out << "vstavki sort" << endl;
+	for (int i = 0; i < 4; i++)
 	{
-		vector<T> arr;
-		stats vs, fs, ms, f;
+		stats vs, f;
 
 		int n = nums[i];
 		cout << endl << n << endl;
-		out << n << endl;
 
 		Create_Random_Vector(arr, n);
 		Fast_Sort(arr, 0, n - 1, &f);
 
 		vs = Vstavki(arr, n);
-		Fast_Sort(arr, 0, n - 1, &fs);
-		Merge_Sort(arr, 0, n - 1, n, &ms);
 
 		cout << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
-		//cout << "Count of copies in fast sort = " << fs.copy_count<< "; Count of comparison in fast sort = " << fs.comparison_count<< endl;
-		cout << "Count of copies in merge sort = " << ms.copy_count<< "; Count of comparison in merge sort = " << ms.comparison_count << endl;
-		cout << endl;
+		out << n << '\t' << vs.copy_count << '\t' << vs.comparison_count << endl;
+		arr.clear();
+	}
+	out << endl;
+	cout << endl;
 
-		out << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
-		//out << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
-		out << "Count of copies in merge sort = " << ms.copy_count<< "; Count of comparison in merge sort = " << ms.comparison_count << endl;
-		out << endl;
+	/*out << "fast sort" << endl;
+	for (int i = 0; i < 13; i++)
+	{
+		stats fs, f;
+
+		int n = nums[i];
+		cout << endl << n << endl;
+
+		Create_Random_Vector(arr, n);
+		Fast_Sort(arr, 0, n - 1, &f);
+
+		Fast_Sort(arr, 0, n - 1, &fs);
+
+		cout << "Count of copies in fast sort = " << fs.copy_count<< "; Count of comparison in fast sort = " << fs.comparison_count<< endl;
+		out << n << '\t' << fs.copy_count << '\t' << fs.comparison_count << endl;
 
 		arr.clear();
 	}
+	out << endl;
+	cout << endl;
+	*/
+
+	out << "merge sort" << endl;
+	for (int i = 0; i < 4; i++)
+	{
+		stats ms, f;
+
+		int n = nums[i];
+		cout << endl << n << endl;
+
+		Create_Random_Vector(arr, n);
+		Fast_Sort(arr, 0, n - 1, &f);
+
+		Merge_Sort(arr, 0, n - 1, n, &ms);
+
+		cout << "Count of copies in merge sort = " << ms.copy_count << "; Count of comparison in merge sort = " << ms.comparison_count << endl;
+		out << n << '\t' << ms.copy_count << '\t' << ms.comparison_count << endl;
+		arr.clear();
+	}
+	out << endl;
+	cout << endl;
+
 	out.close();
 }
 
@@ -344,41 +399,76 @@ template <class T>
 void Research_Reversed_Vector(int* nums)
 {
 	ofstream out; 
-	out.open("research.txt", ios_base::app);
-
-
+	out.open("research_reversed_vector.txt", ios_base::app);
+	vector<T> arr;
 	cout << "results for reversed vector" << endl;
 	out << "results for reversed vector\n\n";
+	out << "numer of elemets\tcomprasion\tcopy" << endl;
 
-	for (int i = 0; i < 13; i++)
+	out << "vstavki sort" << endl;
+	for (int i = 0; i < 4; i++)
 	{
-		vector<T> arr;
-		stats vs, fs, ms, f;
+		stats vs, f;
 
 		int n = nums[i];
 		cout << endl << n << endl;
-		out << n << endl;
 
 		Create_Random_Vector(arr, n);
 		Fast_Sort(arr, 0, n - 1, &f);
 		Revers_Vector(arr, n);
 
 		vs = Vstavki(arr, n);
-		//Fast_Sort(arr, 0, n - 1, &fs);
-		Merge_Sort(arr, 0, n - 1, n, &ms);
 
 		cout << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
-		//cout << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
-		cout << "Count of copies in merge sort = " << ms.copy_count << "; Count of comparison in merge sort = " << ms.comparison_count << endl;
-		cout << endl;
+		out << n << '\t' << vs.copy_count << '\t' << vs.comparison_count << endl;
+		arr.clear();
+	}
+	out << endl;
+	cout << endl;
 
-		out << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
-		//out << "Count of copies in fast sort = " << fs.copy_count << "; Count of comparison in fast sort = " << fs.comparison_count << endl;
-		out << "Count of copies in merge sort = " << ms.copy_count << "; Count of comparison in merge sort = " << ms.comparison_count << endl;
-		out << endl;
+
+	/*out << "fast sort" << endl;
+	for (int i = 0; i < 13; i++)
+	{
+		stats fs, f;
+
+		int n = nums[i];
+		cout << endl << n << endl;
+
+		Create_Random_Vector(arr, n);
+		Fast_Sort(arr, 0, n - 1, &f);
+		Revers_Vector(arr, n);
+
+		Fast_Sort(arr, 0, n - 1, &fs);
+
+		cout << "Count of copies in fast sort = " << fs.copy_count<< "; Count of comparison in fast sort = " << fs.comparison_count<< endl;
+		out << n << '\t' << fs.copy_count << '\t' << fs.comparison_count << endl;
 
 		arr.clear();
 	}
+	out << endl;
+	cout << endl;
+	*/
+
+	out << "merge sort" << endl;
+	for (int i = 0; i < 4; i++)
+	{
+		stats ms, f;
+
+		int n = nums[i];
+		cout << endl << n << endl;
+
+		Create_Random_Vector(arr, n);
+		Fast_Sort(arr, 0, n - 1, &f);
+
+		Merge_Sort(arr, 0, n - 1, n, &ms);
+
+		cout << "Count of copies in merge sort = " << ms.copy_count << "; Count of comparison in merge sort = " << ms.comparison_count << endl;
+		out << n << '\t' << ms.copy_count << '\t' << ms.comparison_count << endl;
+		arr.clear();
+	}
+	out << endl;
+	cout << endl;
 	out.close();
 }
 
@@ -386,21 +476,19 @@ template <class T>
 void Research_Times()
 {
 	ofstream out;
-	out.open("research.txt", ios_base::app);
+	out.open("research_time.txt", ios_base::app);
 	auto start = chrono::steady_clock::now();
 	auto end = chrono::steady_clock::now();
 	double average_t;
+	vector<T> arr;
 
 	cout << "times of sorts (microseconds)" << endl;
 	out << "times of sorts (microseconds)\n\n";
 
-	for (int n = 1000; n <= 10000; n += 1000)
+	out << "vstavki sort" << endl;
+	for (int n = 1000; n <= 4000; n += 1000)
 	{
-		vector<T> arr;
-
 		cout << endl << n << endl;
-		out << n << endl;
-
 		average_t = 0;
 		for (int i = 0; i < 100; i++)
 		{
@@ -413,8 +501,15 @@ void Research_Times()
 			arr.clear();
 		}
 		cout << "average time of vstavki sort = " << average_t / 100 << endl;
-		out << "average time of vstavki sort = " << average_t / 100 << endl;
+		out << n <<'\t' << average_t / 100 << endl;
+	}
+	out << endl;
+	cout << endl;
 
+	out << "fast sort" << endl;
+	for (int n = 1000; n <= 4000; n += 1000)
+	{
+		cout << endl << n << endl;
 		average_t = 0;
 		for (int i = 0; i < 100; i++)
 		{
@@ -427,8 +522,15 @@ void Research_Times()
 			arr.clear();
 		}
 		cout << "average time of fast sort = " << average_t / 100 << endl;
-		out << "average time of fast sort = " << average_t / 100 << endl;
+		out << n << '\t' << average_t / 100 << endl;
+	}
+	out << endl;
+	cout << endl;
 
+	out << "merge sort" << endl;
+	for (int n = 1000; n <= 4000; n += 1000)
+	{
+		cout << endl << n << endl;
 		average_t = 0;
 		for (int i = 0; i < 100; i++)
 		{
@@ -441,11 +543,10 @@ void Research_Times()
 			arr.clear();
 		}
 		cout << "average time of merge sort = " << average_t / 100 << endl;
-		out << "average time of merge sort = " << average_t / 100 << endl;
-
-		out << endl;
-		cout << endl;
+		out << n << '\t' << average_t / 100 << endl;
 	}
+	out << endl;
+	cout << endl;
 	out.close();
 }
 
@@ -494,9 +595,9 @@ int main()
 {
 	cout << "HELLO, THIS IS THE SECOND LAB BY ZAMOTOHINA MARIA" << endl;
 	ofstream out;
-	out.open("research.txt", ios_base::trunc);
-	int n[13] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 25000, 50000, 100000};
-	//int n[4] = { 1000, 2000, 3000, 4000};
+
+	//int n[13] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 25000, 50000, 100000};
+	int n[4] = { 1000, 2000, 3000, 4000};
 	while(true)
 	{
 		system("cls");
@@ -506,21 +607,29 @@ int main()
 		{
 		case 49:
 			system("cls");
+			out.open("research_random_vector.txt", ios_base::trunc);
+			out.close();
 			Research_Random_Vector<int>(n);
 			system("pause");
 			break;
 		case 50:
 			system("cls");
+			out.open("research_sorted_vector.txt", ios_base::trunc);
+			out.close();
 			Research_Sorted_Vector<int>(n);
 			system("pause");
 			break;
 		case 51:
 			system("cls");
+			out.open("research_reversed_vector.txt", ios_base::trunc);
+			out.close();
 			Research_Reversed_Vector<int>(n);
 			system("pause");
 			break;
 		case 52:
 			system("cls");
+			out.open("research_time.txt", ios_base::trunc);
+			out.close();
 			Research_Times<int>();
 			system("pause");
 			break;
