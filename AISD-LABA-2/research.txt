@@ -1,0 +1,28 @@
+times of sorts (microseconds)
+
+1000
+average time of vstavki sort = 3606.71
+average time of fast sort = 120.65
+average time of merge sort = 800.54
+
+2000
+average time of vstavki sort = 14346.7
+average time of fast sort = 261.44
+average time of merge sort = 1728.15
+
+3000
+average time of vstavki sort = 32213.8
+average time of fast sort = 418.58
+average time of merge sort = 2841.56
+
+4000
+average time of vstavki sort = 56866
+average time of fast sort = 572.22
+average time of merge sort = 4119.05
+
+5000
+average time of vstavki sort = 87883.6
+average time of fast sort = 742.7
+average time of merge sort = 5237.84
+
+6000

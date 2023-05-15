@@ -24,6 +24,58 @@ int Random_Number()
 }
 
 template <class T>
+T InputValue()
+{
+	int num = 0;
+	while (!(cin >> num) || (cin.peek() != '\n'))
+	{
+		cin.clear();
+		while (cin.get() != '\n');
+		cout << "\nIncorrect value...\n";
+	}
+
+	return num;
+}
+
+int getkey()
+{
+	int key = getch();
+	if ((key == 0) || (key == 224)) key = getch();
+	return key;
+}
+
+int menu_example()
+{
+	cout << "Press 1 to use vastavki sort" << endl;
+	cout << "Press 2 to use fast sort" << endl;
+	cout << "Press 3 to to use merge sort" << endl;
+
+	cout << "\nPress Esc to back to the man menu" << endl;
+	while (true)
+	{
+		int key = getkey();
+		if ((key == 49) || (key == 50) || (key == 51) || (key == 27)) return key;
+	}
+}
+
+int menu_sorts()
+{
+	cout << endl << "This is main menu" << endl;
+	cout << "Press 1 to research random vector" << endl;
+	cout << "Press 2 to research sorted vector" << endl;
+	cout << "Press 3 to research reversed vector" << endl;
+	cout << "Press 4 to times of sorts" << endl;
+	cout << "Press 5 to use your vector" << endl;
+
+	cout << "\nPress Esc to finish the program" << endl;
+	while (true)
+	{
+		int key = getkey();
+		if ((key == 49) || (key == 50) || (key == 51) || (key == 52) || (key == 53) || (key == 27)) return key;
+	}
+}
+
+template <class T>
 void PrintArr(vector<T> &arr, int n)
 {
 	for (int i = 0; i < n; i++)
@@ -31,6 +83,16 @@ void PrintArr(vector<T> &arr, int n)
 		cout << arr[i] << '\t';
 	}
 	cout << endl;
+}
+
+template <class T>
+void CreateArr(vector<T>& arr, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << i + 1 << " = ";
+		arr.push_back(InputValue<T>());
+	}
 }
 
 //int* VstavkiNotOptimaise(int* arr, int n)
@@ -156,15 +218,17 @@ void Create_Random_Vector(vector<T>& v, int n)
 	}
 }
 
-void Revers_Vector(vector<int>& v, int n) 
+template <class T>
+void Revers_Vector(vector<T>& v, int n) 
 {
 	for (int i = 0; i < n / 2; i++) {
-		int tmp = v[i];
+		T tmp = v[i];
 		v[i] = v[(n - 1) - i];
 		v[(n - 1) - i] = tmp;
 	}
 }
 
+template <class T>
 void Research_Random_Vector(int* nums)
 {
 	ofstream out; 
@@ -173,19 +237,18 @@ void Research_Random_Vector(int* nums)
 	cout << "results for random vector" << endl;
 	out << "results for random vector\n\n";
 
-	for (int i = 0; i < 13; i++)
+	for (int j = 0; j < 13; j++)
 	{
 		stats s_vs, s_fs, s_ms;
-		vector<int> arr;
+		vector<T> arr;
 
-		int n = nums[i];
+		int n = nums[j];
 		cout << endl << n << endl;
 		out << n << endl;
 		for (int i = 0; i < 100; i++)
 		{
 			stats vs;
 			Create_Random_Vector(arr, n);
-
 			vs = Vstavki(arr, n);
 			s_vs.comparison_count += vs.comparison_count;
 			s_vs.copy_count += vs.copy_count;
@@ -236,6 +299,7 @@ void Research_Random_Vector(int* nums)
 
 }
 
+template <class T>
 void Research_Sorted_Vector(int* nums)
 {
 	ofstream out; 
@@ -247,7 +311,7 @@ void Research_Sorted_Vector(int* nums)
 
 	for (int i = 0; i < 13; i++)
 	{
-		vector<int> arr;
+		vector<T> arr;
 		stats vs, fs, ms, f;
 
 		int n = nums[i];
@@ -258,7 +322,7 @@ void Research_Sorted_Vector(int* nums)
 		Fast_Sort(arr, 0, n - 1, &f);
 
 		vs = Vstavki(arr, n);
-		//Fast_Sort(arr, 0, n - 1, &fs);
+		Fast_Sort(arr, 0, n - 1, &fs);
 		Merge_Sort(arr, 0, n - 1, n, &ms);
 
 		cout << "Count of copies in vstavki sort = " << vs.copy_count << "; Count of comparison in vstavki sort = " << vs.comparison_count << endl;
@@ -276,6 +340,7 @@ void Research_Sorted_Vector(int* nums)
 	out.close();
 }
 
+template <class T>
 void Research_Reversed_Vector(int* nums)
 {
 	ofstream out; 
@@ -287,7 +352,7 @@ void Research_Reversed_Vector(int* nums)
 
 	for (int i = 0; i < 13; i++)
 	{
-		vector<int> arr;
+		vector<T> arr;
 		stats vs, fs, ms, f;
 
 		int n = nums[i];
@@ -317,20 +382,21 @@ void Research_Reversed_Vector(int* nums)
 	out.close();
 }
 
+template <class T>
 void Research_Times()
 {
 	ofstream out;
 	out.open("research.txt", ios_base::app);
 	auto start = chrono::steady_clock::now();
 	auto end = chrono::steady_clock::now();
-	long double average_t;
+	double average_t;
 
 	cout << "times of sorts (microseconds)" << endl;
 	out << "times of sorts (microseconds)\n\n";
 
 	for (int n = 1000; n <= 10000; n += 1000)
 	{
-		vector<int> arr;
+		vector<T> arr;
 
 		cout << endl << n << endl;
 		out << n << endl;
@@ -343,7 +409,7 @@ void Research_Times()
 			start = chrono::steady_clock::now();
 			vs = Vstavki(arr, n);
 			end = chrono::steady_clock::now();
-			average_t += long double(chrono::duration_cast<chrono::microseconds>(end - start).count());
+			average_t += double(chrono::duration_cast<chrono::microseconds>(end - start).count());
 			arr.clear();
 		}
 		cout << "average time of vstavki sort = " << average_t / 100 << endl;
@@ -357,7 +423,7 @@ void Research_Times()
 			start = chrono::steady_clock::now();
 			Fast_Sort(arr, 0, n - 1, &fs);
 			end = chrono::steady_clock::now();
-			average_t += long double(chrono::duration_cast<chrono::microseconds>(end - start).count());
+			average_t += double(chrono::duration_cast<chrono::microseconds>(end - start).count());
 			arr.clear();
 		}
 		cout << "average time of fast sort = " << average_t / 100 << endl;
@@ -371,7 +437,7 @@ void Research_Times()
 			start = chrono::steady_clock::now();
 			Merge_Sort(arr, 0, n - 1, n, &ms);
 			end = chrono::steady_clock::now();
-			average_t += long double(chrono::duration_cast<chrono::microseconds>(end - start).count());
+			average_t += double(chrono::duration_cast<chrono::microseconds>(end - start).count());
 			arr.clear();
 		}
 		cout << "average time of merge sort = " << average_t / 100 << endl;
@@ -383,28 +449,46 @@ void Research_Times()
 	out.close();
 }
 
-int getkey()
+template <class T>
+void Example()
 {
-	int key = getch();
-	if ((key == 0) || (key == 224)) key = getch();
-	return key;
-}
-
-int menu_sorts()
-{
-	cout << endl << "This is main menu" << endl;
-	cout << "Press 1 to research random vector" << endl;
-	cout << "Press 2 to research sorted vector" << endl;
-	cout << "Press 3 to research reversed vector" << endl;
-	cout << "Press 4 to times of sorts" << endl;
-
-	cout << "\nPress Esc to finish the program" << endl;
-	while (true)
+	while(true)
 	{
-		int key = getkey();
-		if ((key == 49) || (key == 50) || (key == 51) || (key == 52) || (key == 27)) return key;
+		system("cls");
+		vector<T> arr;
+		stats s;
+		int n;
+		cout << "Insert number of elements > 0" << endl;
+		n = InputValue<int>();
+		while (n <= 0)
+		{
+			cout << "Insert correct value" << endl;
+			n = InputValue<int>();
+		}
+		CreateArr(arr, n);
+		PrintArr(arr, n);
+		int m = menu_example();
+		switch (m)
+		{
+		case 49:
+			Vstavki(arr, n);
+			break;
+		case 50:
+			Fast_Sort(arr, 0, n - 1, &s);
+			break;
+		case 51:
+			Merge_Sort(arr, 0, n - 1, n, &s);
+			break;
+		case 27:
+			return;
+		}
+		PrintArr(arr, n);
+		system("pause");
+
 	}
+
 }
+
 
 int main()
 {
@@ -422,22 +506,27 @@ int main()
 		{
 		case 49:
 			system("cls");
-			Research_Random_Vector(n);
+			Research_Random_Vector<int>(n);
 			system("pause");
 			break;
 		case 50:
 			system("cls");
-			Research_Sorted_Vector(n);
+			Research_Sorted_Vector<int>(n);
 			system("pause");
 			break;
 		case 51:
 			system("cls");
-			Research_Reversed_Vector(n);
+			Research_Reversed_Vector<int>(n);
 			system("pause");
 			break;
 		case 52:
 			system("cls");
-			Research_Times();
+			Research_Times<int>();
+			system("pause");
+			break;
+		case 53:
+			system("cls");
+			Example<int>();
 			system("pause");
 			break;
 		case 27:
@@ -445,6 +534,5 @@ int main()
 		}
 	}
 
-	
 	return 0;
 }
