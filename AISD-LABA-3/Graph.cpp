@@ -14,9 +14,9 @@ Graph::~Graph()
 bool Graph::contain_vertex(int id_find_v) const
 {
 	if (vertexes.size() == 0) throw EZeroVertexesSize();
-	for (auto i = vertexes.begin(); i != vertexes.end(); i++)
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	{
-		if (i->id_v == id_find_v) return true;
+		if (v->id_v == id_find_v) return true;
 	}
 	return false;
 }
@@ -24,9 +24,9 @@ bool Graph::contain_vertex(int id_find_v) const
 int Graph::find_vertex(int id_find_v) const
 {
 	if (vertexes.size() == 0) throw EZeroVertexesSize();
-	for (auto i = vertexes.begin(); i != vertexes.end(); i++)
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	{
-		if (i->id_v == id_find_v) return int(i-vertexes.begin());
+		if (v->id_v == id_find_v) return int(v - vertexes.begin());
 	}
 	return -1;
 }
@@ -42,5 +42,19 @@ bool Graph::remove_vertex(int id_remove_v)
 	if (vertexes.size() == 0) throw EZeroVertexesSize();
 	int remove_index = find_vertex(id_remove_v);
 	if (remove_index == -1) throw EElementNotExist(id_remove_v);
+
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	{
+		if (v->id_v == id_remove_v) remove_edge(v->id_v, id_remove_v);
+	}
+
+	vertexes[remove_index].edges.clear();
+	vertexes.erase(vertexes.begin() + remove_index);
+	return true;
+}
+
+//---------------------------
+bool Graph::remove_edge(int id_from, int id_to)
+{
 
 }
