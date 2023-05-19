@@ -1,5 +1,6 @@
 #include <vector>
 #include <stdio.h>
+#include <queue>
 #include "Graph.h"
 #include "exeption.h"
 
@@ -45,7 +46,8 @@ bool Graph::remove_vertex(int id_remove_v)
 
 	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	{
-		if (v->id_v == id_remove_v) remove_edge(v->id_v, id_remove_v);
+		//if (v->id_v == id_remove_v) remove_edge(v->id_v, id_remove_v);
+		remove_edge(v->id_v, id_remove_v);
 	}
 
 	vertexes[remove_index].edges.clear();
@@ -54,7 +56,152 @@ bool Graph::remove_vertex(int id_remove_v)
 }
 
 //---------------------------
+void Graph::add_edge(int id_from, int id_to, double w)
+{
+	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	int index_from = find_vertex(id_from);
+	if (index_from == -1) throw EElementNotExist(index_from);
+
+	Edge e = Edge(id_to, w);
+	vertexes[index_from].edges.push_front(e);
+}
+
 bool Graph::remove_edge(int id_from, int id_to)
 {
+	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	int index_from = find_vertex(id_from);
+	if (index_from == -1) throw EElementNotExist(index_from);
 
+	auto prev = vertexes[index_from].edges.before_begin();
+	auto current = vertexes[index_from].edges.begin();
+	auto end = vertexes[index_from].edges.end();
+
+	while (current != end)
+	{
+		if (current->id_to == id_to)
+		{
+			vertexes[index_from].edges.erase_after(prev);
+			return true;
+		}
+		prev++;
+		current++;
+	}
+
+	return false;
 }
+
+bool Graph::has_edge(int id_from, int id_to) const
+{
+	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	int index_from = find_vertex(id_from);
+	if (index_from == -1) throw EElementNotExist(index_from);
+
+	auto current = vertexes[index_from].edges.begin();
+	auto end = vertexes[index_from].edges.end();
+
+	while (current != end)
+	{
+		if (current->id_to == id_to) return true;
+		current++;
+	}
+
+	return false;
+}
+//-----------------------------------
+
+vector<Vertex> Graph::neighbour_of_vertex(int id_v)
+{
+	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	int index_v = find_vertex(id_v);
+	if (index_v == -1) throw EElementNotExist(index_v);
+
+	vector<Vertex> v_neighbour;
+
+	auto current = vertexes[id_v].edges.begin();
+	auto end = vertexes[id_v].edges.end();
+
+	while (current != end)
+	{
+		int i = find_vertex(current->id_to);
+		v_neighbour.push_back(vertexes[i]);
+		current++;
+	}
+
+	return v_neighbour;
+}
+
+int Graph::degree(int id_v) const
+{
+	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	int index_v = find_vertex(id_v);
+	if (index_v == -1) throw EElementNotExist(index_v);
+
+	int count = 0;
+
+	auto current = vertexes[id_v].edges.begin();
+	auto end = vertexes[id_v].edges.end();
+
+	while (current != end)
+	{
+		count += 1;
+		current++;
+	}
+
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	{
+		if (v->id_v != id_v)
+		{
+			auto current = v->edges.begin();
+			auto end = v->edges.end();
+
+			while (current != end)
+			{
+				if (current->id_to == id_v) count += 1;
+			}
+		}
+	}
+
+	return count;
+}
+
+void Graph::walk()
+{
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	{
+		v->color = white;
+	}
+
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	{
+		if (v->color == white) 
+		{
+			int index = find_vertex(v->id_v);
+			search_in_width(vertexes[index]);
+		}
+	}
+}
+
+void Graph::search_in_width(Vertex& first_v)
+{
+	queue<Vertex> Q;
+	Q.push(first_v);
+	first_v.color = gray;
+	while (Q.empty() == false)
+	{
+		Vertex u = Q.front();
+		Q.pop();
+		vector<Vertex> v_neighbour = neighbour_of_vertex(u.id_v);
+		for (auto v = v_neighbour.begin(); v != v_neighbour.end(); v++)
+		{
+			if (v->color == white)
+			{
+				v->color = gray;
+				int i = find_vertex(v->id_v);
+				Q.push(vertexes[i]);
+			}
+		}
+		u.color = black;
+	}
+}
+
+
