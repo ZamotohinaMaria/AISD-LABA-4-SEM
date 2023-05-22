@@ -233,7 +233,78 @@ void Graph::Deicstra(Vertex first)
 	first.d = 0;
 	vector<Vertex> S;
 	queue<Vertex> Q;
+	sortQueue(Q);
+	while (Q.empty() == false)
+	{
+		Vertex u = Q.front();
+		S.push_back(u);
+		vector<Vertex> v_neighbour = neighbour_of_vertex(u.id_v);
+		for (auto v = v_neighbour.begin(); v != v_neighbour.end(); v++)
+		{
+			int i = find_vertex(v->id_v);
+			Relax(u, vertexes[i]);
+		}
+	}
 }
 
+void Graph::shortest_path(int id_from, int id_to)
+{
+	int index_from = find_vertex(id_from);
+	int cur_index = find_vertex(id_to);
 
+	vector<int> way;
+
+	while (cur_index != index_from)
+	{
+		way.push_back(vertexes[cur_index].id_v);
+		int id_prev = vertexes[cur_index].id_prev;
+		cur_index = find_vertex(id_prev);
+	}
+	way.push_back(id_from);
+}
+
+int Graph:: minIndex(queue<Vertex>& q, int sortedIndex)
+{
+	int min_index = -1;
+	int min_val = INT_MAX;
+	int n = q.size();
+	for (int i = 0; i < n; i++)
+	{
+		Vertex curr = q.front();
+		q.pop(); 
+		if (curr.id_v <= min_val && i <= sortedIndex)
+		{
+			min_index = i;
+			min_val = curr.id_v;
+		}
+		q.push(curr);  // This is enqueue() in 
+		// C++ STL
+	}
+	return min_index;
+}
+
+void Graph::insertMinToRear(queue<Vertex>& q, int min_index)
+{
+	Vertex min_val(INT_MAX);
+	int n = q.size();
+	for (int i = 0; i < n; i++)
+	{
+		Vertex curr = q.front();
+		q.pop();
+		if (i != min_index)
+			q.push(curr);
+		else
+			min_val = curr;
+	}
+	q.push(min_val);
+}
+
+void Graph:: sortQueue(queue<Vertex>& q)
+{
+	for (int i = 1; i <= q.size(); i++)
+	{
+		int min_index = minIndex(q, q.size() - i);
+		insertMinToRear(q, min_index);
+	}
+}
 

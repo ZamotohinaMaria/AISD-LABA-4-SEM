@@ -25,8 +25,9 @@ struct Vertex
     double d;
     int id_prev;
     forward_list<Edge> edges;
-    Vertex(int id_v): id_v(id_v)
+    Vertex(int id_v)
     {
+        this->id_v = id_v;
         color = white;
         d = 0;
         id_prev = INT_MAX;
@@ -64,8 +65,13 @@ public:
     void search_in_width(Vertex& v);
 
     //поиск кратчайшего пути - Дейкстры
-    vector<Edge> shortest_path(const Vertex& from, const Vertex& to) const;
+    void shortest_path(int id_from, int id_to);
     void Deicstra(Vertex first);
     void Relax(Vertex u, Vertex v);
+
+    //сортировка очереди для алгоритма Дейкстры
+    int minIndex(queue<Vertex>& q, int sortedIndex);
+    void insertMinToRear(queue<Vertex>& q, int min_index);
+    void sortQueue(queue<Vertex>& q);
 };
 
