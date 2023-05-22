@@ -22,10 +22,14 @@ struct Vertex
 {
     int id_v;
     Color color;
+    double d;
+    int id_prev;
     forward_list<Edge> edges;
     Vertex(int id_v): id_v(id_v)
     {
         color = white;
+        d = 0;
+        id_prev = INT_MAX;
     }
 };
 
@@ -55,11 +59,13 @@ public:
     //size_t order() const; //порядок
     int degree(int id_v) const; //степень
 
+    //обход - в ширину
+    void walk();
+    void search_in_width(Vertex& v);
 
     //поиск кратчайшего пути - Дейкстры
     vector<Edge> shortest_path(const Vertex& from, const Vertex& to) const;
-    //обход - в ширину
-    void walk() ;
-    void search_in_width(Vertex& v);
+    void Deicstra(Vertex first);
+    void Relax(Vertex u, Vertex v);
 };
 

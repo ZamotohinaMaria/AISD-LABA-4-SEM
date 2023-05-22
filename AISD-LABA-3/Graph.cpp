@@ -14,7 +14,7 @@ Graph::~Graph()
 //проверка-добавление-удаление вершин
 bool Graph::contain_vertex(int id_find_v) const
 {
-	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	if (vertexes.size() == 0) throw "EZeroVertexesSize()";
 	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	{
 		if (v->id_v == id_find_v) return true;
@@ -24,7 +24,7 @@ bool Graph::contain_vertex(int id_find_v) const
 
 int Graph::find_vertex(int id_find_v) const
 {
-	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	if (vertexes.size() == 0) throw "EZeroVertexesSize()";
 	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	{
 		if (v->id_v == id_find_v) return int(v - vertexes.begin());
@@ -40,9 +40,9 @@ void Graph::add_vertex(int id_v)
 
 bool Graph::remove_vertex(int id_remove_v)
 {
-	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	if (vertexes.size() == 0) throw "EZeroVertexesSize()";
 	int remove_index = find_vertex(id_remove_v);
-	if (remove_index == -1) throw EElementNotExist(id_remove_v);
+	if (remove_index == -1) throw "EElementNotExist(id_remove_v)";
 
 	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	{
@@ -58,9 +58,9 @@ bool Graph::remove_vertex(int id_remove_v)
 //---------------------------
 void Graph::add_edge(int id_from, int id_to, double w)
 {
-	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	if (vertexes.size() == 0) "throw EZeroVertexesSize()";
 	int index_from = find_vertex(id_from);
-	if (index_from == -1) throw EElementNotExist(index_from);
+	if (index_from == -1) "throw EElementNotExist(index_from)";
 
 	Edge e = Edge(id_to, w);
 	vertexes[index_from].edges.push_front(e);
@@ -68,9 +68,9 @@ void Graph::add_edge(int id_from, int id_to, double w)
 
 bool Graph::remove_edge(int id_from, int id_to)
 {
-	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	if (vertexes.size() == 0) "throw EZeroVertexesSize()";
 	int index_from = find_vertex(id_from);
-	if (index_from == -1) throw EElementNotExist(index_from);
+	if (index_from == -1) "throw EElementNotExist(index_from)";
 
 	auto prev = vertexes[index_from].edges.before_begin();
 	auto current = vertexes[index_from].edges.begin();
@@ -92,9 +92,9 @@ bool Graph::remove_edge(int id_from, int id_to)
 
 bool Graph::has_edge(int id_from, int id_to) const
 {
-	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	if (vertexes.size() == 0) "throw EZeroVertexesSize()";
 	int index_from = find_vertex(id_from);
-	if (index_from == -1) throw EElementNotExist(index_from);
+	if (index_from == -1) throw "EElementNotExist(index_from)";
 
 	auto current = vertexes[index_from].edges.begin();
 	auto end = vertexes[index_from].edges.end();
@@ -111,9 +111,9 @@ bool Graph::has_edge(int id_from, int id_to) const
 
 vector<Vertex> Graph::neighbour_of_vertex(int id_v)
 {
-	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	if (vertexes.size() == 0) "throw EZeroVertexesSize()";
 	int index_v = find_vertex(id_v);
-	if (index_v == -1) throw EElementNotExist(index_v);
+	if (index_v == -1) "throw EElementNotExist(index_v)";
 
 	vector<Vertex> v_neighbour;
 
@@ -132,9 +132,9 @@ vector<Vertex> Graph::neighbour_of_vertex(int id_v)
 
 int Graph::degree(int id_v) const
 {
-	if (vertexes.size() == 0) throw EZeroVertexesSize();
+	if (vertexes.size() == 0) "throw EZeroVertexesSize()";
 	int index_v = find_vertex(id_v);
-	if (index_v == -1) throw EElementNotExist(index_v);
+	if (index_v == -1) "throw EElementNotExist(index_v)";
 
 	int count = 0;
 
@@ -203,5 +203,37 @@ void Graph::search_in_width(Vertex& first_v)
 		u.color = black;
 	}
 }
+
+void Graph::Relax(Vertex u, Vertex v)
+{
+	double w = 0;
+	auto current = u.edges.begin();
+	auto end = u.edges.end();
+
+	while (current != end)
+	{
+		if (current->id_to == v.id_v)
+			w = current->weight;
+		current++;
+	}
+	if (v.d > u.d + w)
+	{
+		v.d = u.d + w;
+		v.id_prev = u.id_v;
+	}
+}
+
+void Graph::Deicstra(Vertex first)
+{
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	{
+		v->d = INT_MAX;
+		v->id_prev = INT_MAX;
+	}
+	first.d = 0;
+	vector<Vertex> S;
+	queue<Vertex> Q;
+}
+
 
 
