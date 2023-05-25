@@ -144,8 +144,8 @@ vector<Vertex> Graph::neighbour_of_vertex(int id_v)
 
 	vector<Vertex> v_neighbour;
 
-	auto current = vertexes[id_v].edges.begin();
-	auto end = vertexes[id_v].edges.end();
+	auto current = vertexes[index_v].edges.begin();
+	auto end = vertexes[index_v].edges.end();
 
 	while (current != end)
 	{
@@ -165,8 +165,8 @@ int Graph::degree(int id_v) const
 
 	int count = 0;
 
-	auto current = vertexes[id_v].edges.begin();
-	auto end = vertexes[id_v].edges.end();
+	auto current = vertexes[index_v].edges.begin();
+	auto end = vertexes[index_v].edges.end();
 
 	while (current != end)
 	{
@@ -184,6 +184,7 @@ int Graph::degree(int id_v) const
 			while (current != end)
 			{
 				if (current->id_to == id_v) count += 1;
+				current++;
 			}
 		}
 	}
