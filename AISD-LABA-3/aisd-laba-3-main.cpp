@@ -137,7 +137,7 @@ void Walk(Graph& g)
 	vector<Vertex> way = g.walk(id_v);
 	for (auto w = way.begin(); w != way.end(); w++)
 		cout << w->id_v << " -> ";
-	cout << endl;
+	cout << "NULL" << endl;
 }
 
 Graph CreateGraph()
