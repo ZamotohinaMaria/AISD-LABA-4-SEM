@@ -1,5 +1,6 @@
 #include <vector>
 #include <stdio.h>
+#include <iostream>
 #include <queue>
 #include "Graph.h"
 #include "exeption.h"
@@ -8,7 +9,33 @@ using namespace std;
 
 Graph::~Graph()
 {
+	delete_graph();
+}
+
+void Graph::delete_graph()
+{
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	{
+		v->edges.clear();
+	}
 	vertexes.clear();
+}
+
+void Graph::print()
+{
+	if (vertexes.size() == 0) cout << "Graph is empty" << endl;
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	{
+		auto curr = v->edges.begin();
+		auto end = v->edges.end();
+		cout << v->id_v << ": ";
+		while (curr != end)
+		{
+			cout << curr->id_to << " -> ";
+			curr++;
+		}
+		cout << "NULL" << endl;
+	}
 }
 
 //проверка-добавление-удаление вершин

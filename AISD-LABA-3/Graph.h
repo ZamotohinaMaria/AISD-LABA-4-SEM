@@ -40,6 +40,8 @@ private:
     vector<Vertex> vertexes;
 public:
     ~Graph();
+    void delete_graph();
+    void print();
     //проверка-добавление-удаление вершин
     bool contain_vertex(int id_find_v) const;
     int find_vertex(int id_find_v) const;
