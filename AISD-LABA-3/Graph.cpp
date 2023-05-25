@@ -38,7 +38,7 @@ void Graph::print()
 	}
 }
 
-//проверка-добавление-удаление вершин
+//----------------------------
 bool Graph::contain_vertex(int id_find_v) const
 {
 	if (vertexes.size() == 0) throw "EZeroVertexesSize()";
@@ -192,46 +192,81 @@ int Graph::degree(int id_v) const
 	return count;
 }
 
-void Graph::walk()
+//---------------------------------
+void Graph::walk(int id_first)
 {
 	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	{
 		v->color = white;
+		v->id_prev = INT_MAX;
 	}
 
-	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	int index_first = find_vertex(id_first);
+	search_in_width(vertexes[index_first]);
+
+	//for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	//{
+	//	if (v->color == white) 
+	//	{
+	//		cout << "Vertexes, that cannot be reached from the vertex" << id_first << endl;
+	//		int index = find_vertex(v->id_v);
+	//		search_in_width(vertexes[index]);
+	//	}
+	//}
+}
+
+//void print_queue(queue<Vertex> queue)
+//{
+//	cout << "queue: ";
+//	while (!queue.empty())
+//	{
+//		cout << queue.front().id_v << "\t";
+//		queue.pop();
+//	}
+//	cout << endl;
+//}
+
+void insert_into_queue(queue<Vertex>& q, Vertex v)
+{
+	queue<Vertex> Q = q;
+	while (!Q.empty())
 	{
-		if (v->color == white) 
-		{
-			int index = find_vertex(v->id_v);
-			search_in_width(vertexes[index]);
-		}
+		if (Q.front().id_v == v.id_v) return;
+		Q.pop();
 	}
+	q.push(v);
 }
 
 void Graph::search_in_width(Vertex& first_v)
 {
+	cout << "Walk for vertex " << first_v.id_v << endl;
 	queue<Vertex> Q;
-	Q.push(first_v);
-	first_v.color = gray;
+	vertexes[find_vertex(first_v.id_v)].color = gray;
+	Q.push(vertexes[find_vertex(first_v.id_v)]);
+	//print_queue(Q);
 	while (Q.empty() == false)
 	{
 		Vertex u = Q.front();
 		Q.pop();
+		cout << u.id_v << "->";
 		vector<Vertex> v_neighbour = neighbour_of_vertex(u.id_v);
 		for (auto v = v_neighbour.begin(); v != v_neighbour.end(); v++)
 		{
 			if (v->color == white)
 			{
-				v->color = gray;
+				vertexes[find_vertex(v->id_v)].color = gray;
+				vertexes[find_vertex(v->id_v)].id_prev = u.id_v;
 				int i = find_vertex(v->id_v);
-				Q.push(vertexes[i]);
+				insert_into_queue(Q, vertexes[i]);
 			}
 		}
-		u.color = black;
+		vertexes[find_vertex(u.id_v)].color = black;
+		//print_queue(Q);
 	}
+	cout << "NULL" << endl;
 }
 
+//----------------------------------------
 void Graph::Relax(Vertex u, Vertex v)
 {
 	double w = 0;

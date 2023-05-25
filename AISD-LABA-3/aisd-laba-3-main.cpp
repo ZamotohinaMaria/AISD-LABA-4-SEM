@@ -36,12 +36,13 @@ int menu1()
 	cout << "Press 3 to delete vertex" << endl;
 	cout << "Press 4 to delete edge" << endl;
 	cout << "Press 5 to get degree and all neighbours of vertex" << endl;
+	cout << "Press 6 to do walk" << endl;
 
 	cout << "\nPress Esc to finish the program" << endl;
 	while (true)
 	{
 		int key = getkey();
-		if ((key == 49) || (key == 50) || (key == 51) || (key == 52) || (key == 53) || (key == 27)) return key;
+		if ((key == 49) || (key == 50) || (key == 51) || (key == 52) || (key == 53) || (key == 54) || (key == 27)) return key;
 	}
 }
 
@@ -129,6 +130,13 @@ void DergreeAndNeighbours(Graph& g)
 	cout << endl;
 }
 
+void Walk(Graph& g)
+{
+	cout << "Input vertex id" << endl;
+	int id_v = InputExistsVertex(g);
+	g.walk(id_v);
+}
+
 Graph CreateGraph()
 {
 	Graph g;
@@ -209,6 +217,10 @@ int main()
 			break;
 		case 53:
 			DergreeAndNeighbours(g);
+			system("pause");
+			break;
+		case 54:
+			Walk(g);
 			system("pause");
 			break;
 		}
