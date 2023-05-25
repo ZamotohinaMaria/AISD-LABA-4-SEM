@@ -134,7 +134,10 @@ void Walk(Graph& g)
 {
 	cout << "Input vertex id" << endl;
 	int id_v = InputExistsVertex(g);
-	g.walk(id_v);
+	vector<Vertex> way = g.walk(id_v);
+	for (auto w = way.begin(); w != way.end(); w++)
+		cout << w->id_v << " -> ";
+	cout << endl;
 }
 
 Graph CreateGraph()

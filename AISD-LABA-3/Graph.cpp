@@ -193,7 +193,7 @@ int Graph::degree(int id_v) const
 }
 
 //---------------------------------
-void Graph::walk(int id_first)
+vector<Vertex> Graph::walk(int id_first)
 {
 	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	{
@@ -202,7 +202,7 @@ void Graph::walk(int id_first)
 	}
 
 	int index_first = find_vertex(id_first);
-	search_in_width(vertexes[index_first]);
+	return search_in_width(vertexes[index_first]);
 
 	//for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	//{
@@ -237,9 +237,10 @@ void insert_into_queue(queue<Vertex>& q, Vertex v)
 	q.push(v);
 }
 
-void Graph::search_in_width(Vertex& first_v)
+vector<Vertex> Graph::search_in_width(Vertex& first_v)
 {
 	cout << "Walk for vertex " << first_v.id_v << endl;
+	vector<Vertex> way;
 	queue<Vertex> Q;
 	vertexes[find_vertex(first_v.id_v)].color = gray;
 	Q.push(vertexes[find_vertex(first_v.id_v)]);
@@ -248,7 +249,7 @@ void Graph::search_in_width(Vertex& first_v)
 	{
 		Vertex u = Q.front();
 		Q.pop();
-		cout << u.id_v << "->";
+		way.push_back(u);
 		vector<Vertex> v_neighbour = neighbour_of_vertex(u.id_v);
 		for (auto v = v_neighbour.begin(); v != v_neighbour.end(); v++)
 		{
@@ -263,7 +264,7 @@ void Graph::search_in_width(Vertex& first_v)
 		vertexes[find_vertex(u.id_v)].color = black;
 		//print_queue(Q);
 	}
-	cout << "NULL" << endl;
+	return way;
 }
 
 //----------------------------------------

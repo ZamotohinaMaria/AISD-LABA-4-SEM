@@ -63,8 +63,8 @@ public:
     int degree(int id_v) const; //степень
 
     //обход - в ширину
-    void walk(int id_first);
-    void search_in_width(Vertex& v);
+    vector<Vertex> walk(int id_first);
+    vector<Vertex> search_in_width(Vertex& v);
 
     //поиск кратчайшего пути - Дейкстры
     void shortest_path(int id_from, int id_to);
