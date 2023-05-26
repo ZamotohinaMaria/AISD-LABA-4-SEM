@@ -38,12 +38,13 @@ int menu1()
 	cout << "Press 5 to get degree and all neighbours of vertex" << endl;
 	cout << "Press 6 to do walk" << endl;
 	cout << "Press 7 to find min way between vertexes with Deicstra " << endl;
+	cout << "Press 8 to do the task" << endl;
 
 	cout << "\nPress Esc to finish the program" << endl;
 	while (true)
 	{
 		int key = getkey();
-		if (((key >= 49) && (key <= 55)) || (key == 27)) return key;
+		if (((key >= 49) && (key <= 56)) || (key == 27)) return key;
 	}
 }
 
@@ -175,6 +176,40 @@ void Deicstra(Graph& g)
 		cout << w->id_v << "-" << w->d << endl;
 }
 
+void Task(Graph& g)
+{
+	//буду считать сумму путей от каждой вершины до каждой другой и -> буду выбирать наименьшее
+	vector<Vertex> g_vert = g.all_vertices();
+	int id_min = -1;
+	double min_len = INT_MAX;
+	for (int i = 0; i < g_vert.size(); i++)
+	{
+		g.deicstra(g_vert[i]);
+		double v_len = 0;
+		vector<Vertex> vert_i = g.all_vertices();
+		cout << "---" << g_vert[i].id_v << "---" << endl;
+		for (auto v = vert_i.begin(); v != vert_i.end(); v++)
+		{
+			cout << v->id_v << ": " << v->d << endl;
+			if (v->d == INT_MAX)
+			{
+				v_len = INT_MAX;
+				break;
+			}
+			v_len += v->d;
+		}
+
+		if (v_len < min_len)
+		{
+			min_len = v_len;
+			id_min = i;
+		}
+		vert_i.clear();
+	}
+
+	cout << "the vertex that is suitable for the warehouse (the closest one for everyone else)\n" << g_vert[id_min].id_v << endl;
+}
+
 Graph CreateGraph()
 {
 	Graph g;
@@ -263,6 +298,10 @@ int main()
 			break;
 		case 55:
 			Deicstra(g);
+			system("pause");
+			break;
+		case 56:
+			Task(g);
 			system("pause");
 			break;
 		}
