@@ -37,12 +37,13 @@ int menu1()
 	cout << "Press 4 to delete edge" << endl;
 	cout << "Press 5 to get degree and all neighbours of vertex" << endl;
 	cout << "Press 6 to do walk" << endl;
+	cout << "Press 7 to find min way between vertexes with Deicstra " << endl;
 
 	cout << "\nPress Esc to finish the program" << endl;
 	while (true)
 	{
 		int key = getkey();
-		if ((key == 49) || (key == 50) || (key == 51) || (key == 52) || (key == 53) || (key == 54) || (key == 27)) return key;
+		if (((key >= 49) && (key <= 55)) || (key == 27)) return key;
 	}
 }
 
@@ -140,6 +141,40 @@ void Walk(Graph& g)
 	cout << "NULL" << endl;
 }
 
+void Revers_Vector(vector<Vertex>& v)
+{
+	for (int i = 0; i < v.size() / 2; i++) {
+		Vertex tmp = v[i];
+		v[i] = v[(v.size() - 1) - i];
+		v[(v.size() - 1) - i] = tmp;
+	}
+}
+
+void Deicstra(Graph& g)
+{
+	cout << "input id from: ";
+	int id_from = InputExistsVertex(g);
+
+	cout << "\ninput id to: ";
+	int id_to = InputExistsVertex(g);
+
+	vector<Vertex> way = g.shortest_path(id_from, id_to);
+	Revers_Vector(way);
+	double len_way = 0;
+	cout << "Shortest way" << endl;
+	for (auto w = way.begin(); w != way.end(); w++)
+	{
+		cout << w->id_v << " -> ";
+		if (w->id_v == id_to) len_way = w->d;
+	}
+	cout << "NULL" << endl;
+	cout << "Lenght way:" << len_way << endl;
+
+	vector<Vertex> vert = g.all_vertices();
+	for (auto w = vert.begin(); w != vert.end(); w++)
+		cout << w->id_v << "-" << w->d << endl;
+}
+
 Graph CreateGraph()
 {
 	Graph g;
@@ -183,7 +218,7 @@ int main()
 	g.add_vertex(1);
 	g.add_vertex(3);
 
-	g.add_edge(1, 9, 6);
+	g.add_edge(1, 9, 9);
 	g.add_edge(1, 7, 3);
 	g.add_edge(3, 5, 2);
 	g.add_edge(5, 1, 8);
@@ -224,6 +259,10 @@ int main()
 			break;
 		case 54:
 			Walk(g);
+			system("pause");
+			break;
+		case 55:
+			Deicstra(g);
 			system("pause");
 			break;
 		}

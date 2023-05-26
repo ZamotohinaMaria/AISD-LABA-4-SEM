@@ -82,6 +82,26 @@ bool Graph::remove_vertex(int id_remove_v)
 	return true;
 }
 
+vector<Vertex> Graph:: all_vertices() const
+{
+	vector<Vertex> vert;
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	{
+		vert.push_back(vertexes[find_vertex(v->id_v)]);
+	}
+	return vert;
+}
+
+queue<Vertex> Graph::queue_vertices() const
+{
+	queue<Vertex> vert;
+	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+	{
+		vert.push(vertexes[find_vertex(v->id_v)]);
+	}
+	return vert;
+}
+
 //---------------------------
 void Graph::add_edge(int id_from, int id_to, double w)
 {
@@ -267,8 +287,67 @@ vector<Vertex> Graph::search_in_width(Vertex& first_v)
 	return way;
 }
 
+int min_index(queue<Vertex>& q, int sortedIndex)
+{
+	int min_i = -1;
+	double min_val = INT_MAX;
+	int n = q.size();
+	for (int i = 0; i < n; i++)
+	{
+		Vertex curr = q.front();
+		q.pop();
+		if (curr.d <= min_val && i <= sortedIndex)
+		{
+			min_i = i;
+			min_val = curr.d;
+		}
+		q.push(curr);  
+	}
+	return min_i;
+}
+
+void insert_min_to_rear(queue<Vertex>& q, int min_i)
+{
+	Vertex min_val(INT_MAX);
+	int n = q.size();
+	for (int i = 0; i < n; i++)
+	{
+		Vertex curr = q.front();
+		q.pop();
+		if (i != min_i)
+			q.push(curr);
+		else
+			min_val = curr;
+	}
+	q.push(min_val);
+}
+
+void sort_queue(queue<Vertex>& q)
+{
+	for (int i = 1; i <= q.size(); i++)
+	{
+		int min_i = min_index(q, q.size() - i);
+		insert_min_to_rear(q, min_i);
+	}
+}
+
+queue<Vertex>Graph:: update_queue(queue<Vertex> Q)
+{
+	queue<Vertex> new_q;
+	while (Q.empty() == false)
+	{
+		Vertex u = Q.front();
+		for (auto v = vertexes.begin(); v != vertexes.end(); v++)
+		{
+			if (u.id_v == v->id_v) new_q.push(vertexes[find_vertex(v->id_v)]);
+		}
+		Q.pop();
+	}
+	return new_q;
+}
+
 //----------------------------------------
-void Graph::Relax(Vertex u, Vertex v)
+void Graph::relax(Vertex& u, Vertex& v)
 {
 	double w = 0;
 	auto current = u.edges.begin();
@@ -282,93 +361,65 @@ void Graph::Relax(Vertex u, Vertex v)
 	}
 	if (v.d > u.d + w)
 	{
-		v.d = u.d + w;
-		v.id_prev = u.id_v;
+		vertexes[find_vertex(v.id_v)].d = u.d + w;
+		vertexes[find_vertex(v.id_v)].id_prev = u.id_v;
 	}
 }
 
-void Graph::Deicstra(Vertex first)
+void Graph::deicstra(Vertex& first)
 {
 	for (auto v = vertexes.begin(); v != vertexes.end(); v++)
 	{
 		v->d = INT_MAX;
 		v->id_prev = INT_MAX;
 	}
-	first.d = 0;
+	vertexes[find_vertex(first.id_v)].d = 0;
+
 	vector<Vertex> S;
-	queue<Vertex> Q;
-	sortQueue(Q);
+	queue<Vertex> Q = queue_vertices();
+
 	while (Q.empty() == false)
 	{
+		sort_queue(Q);
+		//print_queue(Q);
 		Vertex u = Q.front();
+		Q.pop();
 		S.push_back(u);
 		vector<Vertex> v_neighbour = neighbour_of_vertex(u.id_v);
 		for (auto v = v_neighbour.begin(); v != v_neighbour.end(); v++)
 		{
 			int i = find_vertex(v->id_v);
-			Relax(u, vertexes[i]);
+			relax(u, vertexes[i]);
 		}
+		Q = update_queue(Q);
 	}
 }
 
-void Graph::shortest_path(int id_from, int id_to)
+vector<Vertex> Graph::shortest_path(int id_from, int id_to)
 {
 	int index_from = find_vertex(id_from);
+	deicstra(vertexes[index_from]);
 	int cur_index = find_vertex(id_to);
 
-	vector<int> way;
+	vector<Vertex> way;
 
 	while (cur_index != index_from)
 	{
-		way.push_back(vertexes[cur_index].id_v);
-		int id_prev = vertexes[cur_index].id_prev;
-		cur_index = find_vertex(id_prev);
-	}
-	way.push_back(id_from);
-}
-
-int Graph:: minIndex(queue<Vertex>& q, int sortedIndex)
-{
-	int min_index = -1;
-	int min_val = INT_MAX;
-	int n = q.size();
-	for (int i = 0; i < n; i++)
-	{
-		Vertex curr = q.front();
-		q.pop(); 
-		if (curr.id_v <= min_val && i <= sortedIndex)
+		if (cur_index != -1)
 		{
-			min_index = i;
-			min_val = curr.id_v;
+			way.push_back(vertexes[cur_index]);
+			int id_prev = vertexes[cur_index].id_prev;
+			cur_index = find_vertex(id_prev);
 		}
-		q.push(curr);  // This is enqueue() in 
-		// C++ STL
-	}
-	return min_index;
-}
-
-void Graph::insertMinToRear(queue<Vertex>& q, int min_index)
-{
-	Vertex min_val(INT_MAX);
-	int n = q.size();
-	for (int i = 0; i < n; i++)
-	{
-		Vertex curr = q.front();
-		q.pop();
-		if (i != min_index)
-			q.push(curr);
 		else
-			min_val = curr;
+		{
+			way.clear();
+			return way;
+		}
 	}
-	q.push(min_val);
+	way.push_back(vertexes[index_from]);
+	return way;
 }
 
-void Graph:: sortQueue(queue<Vertex>& q)
-{
-	for (int i = 1; i <= q.size(); i++)
-	{
-		int min_index = minIndex(q, q.size() - i);
-		insertMinToRear(q, min_index);
-	}
-}
+
 

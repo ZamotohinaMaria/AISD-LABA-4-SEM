@@ -47,7 +47,8 @@ public:
     int find_vertex(int id_find_v) const;
     void add_vertex(int id_v);
     bool remove_vertex(int id_remove_v);
-    //vector<Vertex> vertices() const;
+    vector<Vertex> all_vertices() const;
+    queue<Vertex> queue_vertices() const;
 
     //проверка-добавление-удаление ребер
     void add_edge(int id_from, int id_to, double w);
@@ -67,13 +68,14 @@ public:
     vector<Vertex> search_in_width(Vertex& v);
 
     //поиск кратчайшего пути - Дейкстры
-    void shortest_path(int id_from, int id_to);
-    void Deicstra(Vertex first);
-    void Relax(Vertex u, Vertex v);
+    vector<Vertex> shortest_path(int id_from, int id_to);
+    void deicstra(Vertex& first);
+    void relax(Vertex& u, Vertex& v);
 
     //сортировка очереди для алгоритма Дейкстры
-    int minIndex(queue<Vertex>& q, int sortedIndex);
-    void insertMinToRear(queue<Vertex>& q, int min_index);
-    void sortQueue(queue<Vertex>& q);
+   /* int min_index(queue<Vertex>& q, int sortedIndex);
+    void insert_min_to_rear(queue<Vertex>& q, int min_index);
+    void sort_queue(queue<Vertex>& q);*/
+    queue<Vertex> update_queue(queue<Vertex> Q);
 };
 
